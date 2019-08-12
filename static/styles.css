@@ -1,0 +1,290 @@
+* {
+    boxsizing: border-box;
+    margin: 0;
+}
+
+h1 {
+    font-size: 1rem;
+    color: #e2bc37;
+}
+
+.fakebutton {
+    border: black 1px dotted;
+    padding: 0.2rem;
+}
+
+.maincircle {
+    background: #5e0704;
+    border-radius: 50%;
+    display: grid;
+    grid-template-columns: 1fr 80px 1fr;
+    grid-template-rows: 50% 50%;
+    border: 1px double #e2bc37;
+    padding: 15px;
+    background-clip: content-box;
+    width: 40rem;
+    height: 40rem;
+    z-index: 100;
+}
+
+#render span {
+    grid-column: 1/3;
+    grid-row: 1/2;
+    color: #e2bc37;
+    font: 3rem Monaco, MonoSpace;
+    height: 300px;
+    position: absolute;
+    transform-origin: bottom center;
+    display: flex;
+    justify-content: center;
+    right: 49%;
+    z-index: 11;
+    /* top: 10%; */
+}
+
+#random span {
+    grid-row: 1/2;
+    grid-column: 2/4;
+    color: #e2bc37;
+    font: 3rem Monaco, Monospace;
+    height: 300px;
+    position: absolute;
+    transform-origin: bottom center;
+    display: flex;
+    justify-content: center;
+    right: 49%;
+    z-index: 10;
+    /* top: 10%; */
+}
+
+.char1 {
+    transform: rotate(-90deg);
+}
+.char2 {
+    transform: rotate(-80deg);
+}
+.char3 {
+    transform: rotate(-70deg);
+}
+.char4 {
+    transform: rotate(-60deg);
+}
+.char5 {
+    transform: rotate(-50deg);
+}
+.char6 {
+    transform: rotate(-40deg);
+}
+.char8 {
+    grid-column: 2/3;
+    /* grid-row: 1/3; */
+    text-align: center;
+    justify-content: center;
+    padding: 0.5rem;
+    z-index: 12;
+}
+
+.char10 {
+    transform: rotate(40deg);
+    padding: 0;
+}
+.char11 {
+    transform: rotate(50deg);
+}
+.char12 {
+    transform: rotate(60deg);
+}
+.char13 {
+    transform: rotate(70deg);
+}
+.char14 {
+    transform: rotate(80deg);
+}
+.char15 {
+    transform: rotate(90deg);
+}
+/* ----------------------------------Welcome page */
+
+.welcomePage {
+    display: grid;
+    grid-template-rows: 0.5fr 0.5fr 0.5fr 0.5fr;
+    grid-template-columns: 1fr 0.5fr 0.5fr 1fr;
+    justify-self: center;
+    background: #f5fcef;
+    height: 100vh;
+    width: 100vw;
+    background-image: url("vinyl.jpg");
+    background-size: 100%;
+    background-position: center;
+    z-index: 0;
+}
+.circlecontainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    z-index: 50;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* #subtitle {
+    color: #334431;
+    font-family: "Lacquer", sans-serif;
+    font-size: 1.3rem;
+    display: grid;
+    justify-items: right;
+} */
+
+.reglogin {
+    grid-row: 2/3;
+    grid-column: 1/4;
+    display: grid;
+    justify-self: center;
+    align-self: center;
+    align-items: center;
+    justify-items: center;
+    background: transparent;
+}
+
+/* --------------------------REGISTER and LOGIN */
+
+.wrapper {
+    display: grid;
+    justify-items: center;
+    z-index: 0;
+}
+
+.error {
+    color: red;
+    font-size: 1rem;
+    background-color: #e2bc37;
+    width: 40%;
+}
+
+.button {
+    color: #e2bc37;
+    background: #5e0704;
+    border: none;
+}
+.button:hover {
+    background: #e2bc37;
+    color: #5e0704;
+    border: none;
+}
+
+.inputfield {
+    border: none;
+    border-bottom: 1px solid #e2bc37;
+    background: transparent;
+    font-family: monospace;
+    font-size: 1rem;
+}
+
+.title {
+    color: #e2bc37;
+    font-family: monospace;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.linkother {
+    font-size: 0.9rem;
+    color: #e2bc37;
+    font-family: monospace;
+}
+
+/* ---------------------------------------PODCAST PAGE */
+
+.podcastwrapper {
+    display: grid;
+    grid-template-rows: 0.5fr 0.5fr 0.5fr 0.5fr;
+    grid-template-columns: 1fr 0.5fr 0.5fr 1fr;
+    justify-self: center;
+    background: #f5fcef;
+    height: 100vh;
+    width: 100vw;
+    background-image: url("vinyl.jpg");
+    background-size: 100%;
+    background-position: center;
+    z-index: 0;
+}
+
+.firstquadrant {
+    z-index: 30;
+    background: rgba(226, 188, 55, 0.3);
+    grid-column: 1/3;
+    grid-row: 1/3;
+}
+.secondquadrant {
+    z-index: 30;
+    background: rgba(255, 255, 255, 0.1);
+    grid-column: 3/5;
+    grid-row: 1/3;
+}
+.thirdquadrant {
+    z-index: 30;
+    /* background: rgba(94, 7, 4, 0.5); */
+    background: rgba(255, 255, 255, 0.1);
+    grid-column: 1/3;
+    grid-row: 3/5;
+}
+.fourthquadrant {
+    z-index: 30;
+    background: rgba(226, 188, 55, 0.5);
+    grid-column: 3/5;
+    grid-row: 3/5;
+}
+
+/* ----------------------------------------------------USER PROFILE */
+.myprofile {
+    font-size: 1rem;
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.profilepicinmyprofile {
+    grid-column: 1/2;
+    justify-self: center;
+    font-size: ;
+}
+.textinmyprofile {
+    place-self: center/start;
+    grid-column: 2/3;
+    padding: 0;
+    color: #e2bc37;
+    font-family: monospace;
+}
+
+.uploader {
+    grid-row: 1/3;
+    grid-column: 1/2;
+    z-index: 3;
+}
+
+.profilepic {
+    grid-row: 1/3;
+    grid-column: 1/2;
+}
+
+/* -------------------------------------------FAVORITE EPISODES */
+
+.favorites {
+    padding: 2rem;
+}
+
+/* ----------------------------------------------SEARCH FOR EPISODES */
+
+.search {
+    display: grid;
+    justify-items: center;
+    align-items: center;
+}
+
+.searchinput {
+    padding-bottom: 2rem;
+    display: grid;
+    justify-items: center;
+}
