@@ -24,6 +24,7 @@ export default class App extends React.Component {
     } //end of constructor
     async componentDidMount() {
         const { data } = await axios.get("/user");
+        console.log("testing what I get back", data);
         this.setState(data);
     }
 
@@ -92,11 +93,12 @@ export default class App extends React.Component {
                                 exact
                                 path="/"
                                 render={() => (
-                                    <div className="myprofile">
+                                    <div>
                                         <Profile
                                             picture={this.state.picture}
                                             first={this.state.first}
                                             last={this.state.last}
+                                            displayname={this.state.displayname}
                                             bioEditor={
                                                 <BioEditor
                                                     bio={this.state.bio}
@@ -114,8 +116,8 @@ export default class App extends React.Component {
                                                 <ProfileEditor
                                                     first={this.state.first}
                                                     last={this.state.last}
-                                                    group_tag={
-                                                        this.state.group_tag
+                                                    displayname={
+                                                        this.state.displayname
                                                     }
                                                     done={this.editprofile}
                                                     close={() =>
@@ -129,9 +131,15 @@ export default class App extends React.Component {
                                                 <ProfilePic
                                                     first={this.state.first}
                                                     last={this.state.last}
+                                                    displayname={
+                                                        this.state.displayname
+                                                    }
                                                     picture={this.state.picture}
                                                     size={"jumbo"}
                                                     onClick={() => {
+                                                        console.log(
+                                                            "testing pic click"
+                                                        );
                                                         this.setState({
                                                             uploaderIsVisible: true
                                                         });

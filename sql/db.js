@@ -3,7 +3,7 @@ let db;
 
 var dbUrl =
     process.env.DATABASE_URL ||
-    "postgres://postgres:postgres@localhost:5432/socialmedia";
+    "postgres://postgres:postgres@localhost:5432/renderrandom";
 
 db = spicedPg(dbUrl);
 // }
@@ -17,9 +17,9 @@ exports.addUser = function addUser(
     email,
     password
 ) {
-    // console.log("db addSignature works");
+    console.log("db register works");
     return db.query(
-        "INSERT INTO users (displayname, first, last, email, password_digest, group_tag) VALUES ($1, $2, $3, $4, $5) RETURNING id",
+        "INSERT INTO users (displayname, first, last, email, password_digest) VALUES ($1, $2, $3, $4, $5) RETURNING id",
         [displayname, first_name, last_name, email, password]
     );
 };
@@ -32,10 +32,16 @@ exports.updateBio = function updateBio(bio, id) {
     return db.query("UPDATE users SET bio = $1 WHERE id=$2", [bio, id]);
 };
 
-exports.updateProfile = function updateProfile(first, last, group, hash, id) {
+exports.updateProfile = function updateProfile(
+    first,
+    last,
+    displayname,
+    hash,
+    id
+) {
     return db.query(
-        "UPDATE users SET first = $1, last =$2, group_tag =$3, password_digest = $4 WHERE id=$5",
-        [first, last, group, hash, id]
+        "UPDATE users SET first = $1, last =$2, displayname =$3, password_digest = $4 WHERE id=$5",
+        [first, last, displayname, hash, id]
     );
 };
 //--------GETTING INFO from users--------------
@@ -46,20 +52,20 @@ exports.getUserByEmail = function getUserbyEmail(email) {
 
 exports.getUserById = function getUserById(id) {
     return db.query(
-        "SELECT id, first, last, password_digest, group_tag, picture, bio FROM users WHERE id=$1",
+        "SELECT id, first, last, password_digest, displayname, picture, bio FROM users WHERE id=$1",
         [id]
     );
 };
 
-exports.getLastUsersList = function getLastUsersList() {
+exports.getLastEpisodesList = function getLastEpisodesList() {
     return db.query(
-        "SELECT id, first, last, group_tag, picture FROM users ORDER BY id DESC LIMIT 3"
+        "SELECT id, picture, title, summary, description, audio, duration, created_at FROM episodes ORDER BY id DESC LIMIT 3"
     );
 };
 
-exports.getUsersInSearch = function getUsersInSearch(val) {
+exports.getEpisodesInSearch = function getEpisodesInSearch(val) {
     return db.query(
-        `SELECT id, first, last, group_tag, picture FROM users WHERE first ILIKE $1 ORDER by first ASC`,
+        `SELECT id, picture, title, summary, description, audio, duration, created_at FROM episodes WHERE title ILIKE $1 ORDER by title ASC`,
         [val + "%"]
     );
 };
@@ -127,6 +133,20 @@ exports.getListOfUsers = function getListOfUsers(id) {
     return db.query(
         "SELECT users.id, first, last, picture, accepted FROM friendships JOIN users ON (accepted = false AND receiver_id =$1 AND sender_id = users.id) OR (accepted = true AND receiver_id = $1 AND sender_id = users.id) OR (accepted = true AND sender_id = $1 AND receiver_id = users.id)",
         [id]
+    );
+};
+
+exports.getEpisodesByTag = function getEpisodesByTag(tagname) {
+    return db.query(
+        "SELECT episodes.id, picture, title, summary, description, audio, duration, episodes.created_at FROM tags JOIN episodes ON episodes.id = episode WHERE tag =$1 ",
+        [tagname]
+    );
+};
+
+exports.getEpisodesInSearch = function getEpisodesInSearch(val) {
+    return db.query(
+        `SELECT id, picture, title, summary, description, audio, duration, created_at FROM episodes WHERE title ILIKE $1 ORDER by title ASC`,
+        [val + "%"]
     );
 };
 

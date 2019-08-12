@@ -43,13 +43,10 @@ export default class BioEditor extends React.Component {
                         </p>
 
                         <h3 style={{ color: "#334431", width: "50rem" }}>
-                            Tell us about yourself! What are your current plans
-                            related to urban agriculture or gardening? What are
-                            you expecting from our community? Plant your seeds
-                            here!
+                            Tell us about yourself!
                         </h3>
                         <textarea
-                            style={{ height: "20rem", width: "50rem" }}
+                            style={{ height: "10rem", width: "20rem" }}
                             onChange={({ target }) => {
                                 this.setState({ draft: target.value });
                             }}

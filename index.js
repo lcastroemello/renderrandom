@@ -158,6 +158,7 @@ app.post("/login", function(req, res) {
 
 app.get("/user", async (req, res) => {
     let user = await db.getUserById(req.session.userId);
+    console.log("testing get user by id", user.rows[0]);
     user = user.rows[0];
     if (!user.picture) {
         user.picture = "/default.png";
@@ -192,7 +193,7 @@ app.post("/bio", async (req, res) => {
 //----------------------Edit profile---------------------------------
 app.post("/editprofile", async function(req, res) {
     console.log("testing edit profile body", req.body);
-    const { first, last, group_classes, pass, confpass } = req.body;
+    const { first, last, displayname, pass, confpass } = req.body;
     try {
         let previousInfo = await db.getUserById(req.session.userId);
         console.log("testing previous info", previousInfo);
@@ -212,7 +213,7 @@ app.post("/editprofile", async function(req, res) {
         await db.updateProfile(
             first,
             last,
-            group_classes,
+            displayname,
             hash,
             req.session.userId
         );
@@ -243,23 +244,43 @@ app.get("/user/:id.json", async (req, res) => {
     }
 });
 
-//----------------------FIND PEOPLE--------------------------------
+//----------------------FIND episodes--------------------------------
 
-app.get("/users.json", async function(req, res) {
+app.get("/episodes.json", async function(req, res) {
     try {
-        const userList = await db.getLastUsersList();
-        res.json(userList.rows);
+        const episodeList = await db.getLastEpisodesList();
+        episodeList.rows.forEach(i => {
+            i.created_at = moment(i.created_at, moment.ISO_8601).fromNow();
+        });
+        console.log("testing first episodes", episodeList);
+        res.json(episodeList.rows);
     } catch (err) {
-        console.log("err in get render find people", err);
+        console.log("err in get render find episode", err);
     }
 });
 
-app.get("/users/2/:val.json", async function(req, res) {
+app.get("/episodes/2/:val.json", async function(req, res) {
     try {
-        const searchUser = await db.getUsersInSearch(req.params.val);
-        res.json(searchUser.rows);
+        const searchEpisode = await db.getEpisodesInSearch(req.params.val);
+        searchEpisode.rows.forEach(i => {
+            i.created_at = moment(i.created_at, moment.ISO_8601).fromNow();
+        });
+        console.log("testing search episodes", searchEpisode);
+        res.json(searchEpisode.rows);
     } catch (err) {
-        console.log("err in get query find people", err);
+        console.log("err in get query find episode by name", err);
+    }
+});
+
+app.get("/episodes/3/:val.json", async function(req, res) {
+    try {
+        const findByTag = await db.getEpisodesByTag(req.params.val);
+        findByTag.rows.forEach(i => {
+            i.created_at = moment(i.created_at, moment.ISO_8601).fromNow();
+        });
+        res.json(findByTag.rows);
+    } catch (err) {
+        console.log("err in get query find episode by tag", err);
     }
 });
 
@@ -342,116 +363,116 @@ server.listen(process.env.PORT || 8080, function() {
 });
 
 //-------------------SOCKET.IO--------------------------------
-io.on("connection", socket => {
-    console.log(`socket with id ${socket.id} is now connected`);
-    if (!socket.request.session.userId) {
-        return socket.disconnect(true);
-    }
-    const userId = socket.request.session.userId;
-
-    // CHAT - getting the last 10 chatMessages
-
-    (async () => {
-        try {
-            let messages = await db.getLast10Messages();
-            messages.rows.forEach(i => {
-                i.created_at = moment(i.created_at, moment.ISO_8601).fromNow();
-            });
-            io.emit("chatMessages", messages.rows);
-        } catch (err) {
-            console.log("err in get last chat messages", err);
-        }
-    })();
-
-    socket.on("newChatMessage", async msg => {
-        try {
-            let msgInfo = await db.addChatMessage(userId, msg);
-            let userInfo = await db.getUserById(userId);
-            let timetag = moment(
-                msgInfo.rows[0].created_at,
-                moment.ISO_8601
-            ).fromNow();
-            msgInfo.rows[0] = {
-                ...msgInfo.rows[0],
-                created_at: timetag
-            };
-            const fullInfo = { ...msgInfo.rows[0], ...userInfo.rows[0] };
-            io.emit("newChatMessage", fullInfo);
-        } catch (err) {
-            console.log("err in add chat messages", err);
-        }
-    });
-});
-
-var groupchat = io.of("/groupchat");
-
-groupchat.on("connection", function(socket) {
-    console.log(`socket 2 with id ${socket.id} is now connected`);
-    const userId = socket.request.session.userId;
-
-    (async () => {
-        try {
-            // assigning people to their respective group chats
-            let userInfo = await db.getUserById(userId);
-            let usergroup = userInfo.rows[0].group_tag;
-            let groupname;
-            console.log("getting user group", usergroup);
-            if (usergroup == "amateur") {
-                socket.join("amateur");
-                groupname = "amateur";
-                console.log("I just joined the amateur socket");
-            } else if (usergroup == "pro") {
-                socket.join("pro");
-                groupname = "pro";
-                console.log("I just joined the pro socket");
-            } else if (usergroup == "curious") {
-                socket.join("curious");
-                groupname = "curious";
-                console.log("I just joined the curious socket");
-            } else {
-                groupchat.emit("no group", "you have no group");
-            }
-
-            // gettting the first messages on each chat
-            let messages = await db.getLast10GroupMessages(usergroup);
-            messages.rows.forEach(i => {
-                i.created_at = moment(i.created_at, moment.ISO_8601).fromNow();
-            });
-            console.log("this is messages row", messages.rows);
-            if (messages.rows.length == 0) {
-                groupchat.to(groupname).emit("groupMessages", usergroup);
-            } else {
-                groupchat.to(groupname).emit("groupMessages", messages.rows);
-            }
-
-            // adding each chat message to database and chat
-
-            socket.on("newGroupMessage", async msg => {
-                try {
-                    let msgInfo = await db.addGroupChatMessage(
-                        userId,
-                        usergroup,
-                        msg
-                    );
-                    let timetag = moment(
-                        msgInfo.rows[0].created_at,
-                        moment.ISO_8601
-                    ).fromNow();
-                    msgInfo.rows[0] = {
-                        ...msgInfo.rows[0],
-                        created_at: timetag
-                    };
-                    const fullInfo = {
-                        ...msgInfo.rows[0],
-                        ...userInfo.rows[0]
-                    };
-                    groupchat.to(groupname).emit("newGroupMessage", fullInfo);
-                } catch (err) {
-                    console.log("err in add group message", err);
-                }
-            });
-        } catch (err) {
-            console.log("err in getting group chat", err);
-        }
-    })();
-});
+// io.on("connection", socket => {
+//     console.log(`socket with id ${socket.id} is now connected`);
+//     if (!socket.request.session.userId) {
+//         return socket.disconnect(true);
+//     }
+//     const userId = socket.request.session.userId;
+//
+//     // CHAT - getting the last 10 chatMessages
+//
+//     (async () => {
+//         try {
+//             let messages = await db.getLast10Messages();
+//             messages.rows.forEach(i => {
+//                 i.created_at = moment(i.created_at, moment.ISO_8601).fromNow();
+//             });
+//             io.emit("chatMessages", messages.rows);
+//         } catch (err) {
+//             console.log("err in get last chat messages", err);
+//         }
+//     })();
+//
+//     socket.on("newChatMessage", async msg => {
+//         try {
+//             let msgInfo = await db.addChatMessage(userId, msg);
+//             let userInfo = await db.getUserById(userId);
+//             let timetag = moment(
+//                 msgInfo.rows[0].created_at,
+//                 moment.ISO_8601
+//             ).fromNow();
+//             msgInfo.rows[0] = {
+//                 ...msgInfo.rows[0],
+//                 created_at: timetag
+//             };
+//             const fullInfo = { ...msgInfo.rows[0], ...userInfo.rows[0] };
+//             io.emit("newChatMessage", fullInfo);
+//         } catch (err) {
+//             console.log("err in add chat messages", err);
+//         }
+//     });
+// });
+//
+// var groupchat = io.of("/groupchat");
+//
+// groupchat.on("connection", function(socket) {
+//     console.log(`socket 2 with id ${socket.id} is now connected`);
+//     const userId = socket.request.session.userId;
+//
+//     (async () => {
+//         try {
+//             // assigning people to their respective group chats
+//             let userInfo = await db.getUserById(userId);
+//             let usergroup = userInfo.rows[0].group_tag;
+//             let groupname;
+//             console.log("getting user group", usergroup);
+//             if (usergroup == "amateur") {
+//                 socket.join("amateur");
+//                 groupname = "amateur";
+//                 console.log("I just joined the amateur socket");
+//             } else if (usergroup == "pro") {
+//                 socket.join("pro");
+//                 groupname = "pro";
+//                 console.log("I just joined the pro socket");
+//             } else if (usergroup == "curious") {
+//                 socket.join("curious");
+//                 groupname = "curious";
+//                 console.log("I just joined the curious socket");
+//             } else {
+//                 groupchat.emit("no group", "you have no group");
+//             }
+//
+//             // gettting the first messages on each chat
+//             let messages = await db.getLast10GroupMessages(usergroup);
+//             messages.rows.forEach(i => {
+//                 i.created_at = moment(i.created_at, moment.ISO_8601).fromNow();
+//             });
+//             console.log("this is messages row", messages.rows);
+//             if (messages.rows.length == 0) {
+//                 groupchat.to(groupname).emit("groupMessages", usergroup);
+//             } else {
+//                 groupchat.to(groupname).emit("groupMessages", messages.rows);
+//             }
+//
+//             // adding each chat message to database and chat
+//
+//             socket.on("newGroupMessage", async msg => {
+//                 try {
+//                     let msgInfo = await db.addGroupChatMessage(
+//                         userId,
+//                         usergroup,
+//                         msg
+//                     );
+//                     let timetag = moment(
+//                         msgInfo.rows[0].created_at,
+//                         moment.ISO_8601
+//                     ).fromNow();
+//                     msgInfo.rows[0] = {
+//                         ...msgInfo.rows[0],
+//                         created_at: timetag
+//                     };
+//                     const fullInfo = {
+//                         ...msgInfo.rows[0],
+//                         ...userInfo.rows[0]
+//                     };
+//                     groupchat.to(groupname).emit("newGroupMessage", fullInfo);
+//                 } catch (err) {
+//                     console.log("err in add group message", err);
+//                 }
+//             });
+//         } catch (err) {
+//             console.log("err in getting group chat", err);
+//         }
+//     })();
+// });

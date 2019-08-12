@@ -15,7 +15,8 @@ export default class ProfileEditor extends React.Component {
             lastdraft: props.last,
             groupdraft: props.group_tag,
             passdraft: "",
-            confpassdraft: ""
+            confpassdraft: "",
+            displayname: props.displayname
         }));
     }
     handleChange(e) {
@@ -29,16 +30,16 @@ export default class ProfileEditor extends React.Component {
         e.preventDefault();
         try {
             await axios.post("/editprofile", {
+                displayname: this.state.displaynamedraft,
                 first: this.state.firstdraft,
                 last: this.state.lastdraft,
-                group_classes: this.state.groupdraft,
                 pass: this.state.passdraft,
                 confpass: this.state.confpassdraft
             });
             this.props.done({
+                displayname: this.state.displaynamedraft,
                 first: this.state.firstdraft,
                 last: this.state.lastdraft,
-                group_tag: this.state.groupdraft,
                 pass: this.state.passdraft,
                 confpass: this.state.confpassdraft
             });
@@ -61,6 +62,16 @@ export default class ProfileEditor extends React.Component {
                         <h3 style={{ color: "#334431", width: "50rem" }}>
                             Edit your profile
                         </h3>
+                        Username / Display Name
+                        <input
+                            name="displaynamedraft"
+                            placeholder={this.props.displayname}
+                            onChange={e => this.handleChange(e)}
+                            style={{
+                                border: "none"
+                            }}
+                        />
+                        <br />
                         First Name{" "}
                         <input
                             name="firstdraft"
@@ -103,23 +114,6 @@ export default class ProfileEditor extends React.Component {
                             }}
                         />
                         <br />
-                        <label style={{ color: "#67912D" }}> I am a/an: </label>
-                        <select
-                            id="group_classes"
-                            name="group_classes"
-                            placeholder={this.props.group_tag}
-                            onChange={e => this.handleChange(e)}
-                            style={{
-                                border: "none"
-                            }}
-                        >
-                            <option value="null" />
-                            <option value="amateur">Amateur gardner</option>
-                            <option value="pro">
-                                Professional (gardner/farmer/agronomist)
-                            </option>
-                            <option value="curious">Curious</option>
-                        </select>
                         <br />
                         <style type="text/css">
                             .button{`{background: #f5fcef;}`}
