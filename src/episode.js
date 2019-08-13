@@ -2,17 +2,28 @@ import React, { useState, useEffect } from "react";
 import axios from "./axios";
 
 export default function Episode(props) {
+    const [episodeData, setEpisodeData] = useState();
+
     useEffect(() => {
         const { id } = props.match.params;
         (async () => {
-            const episodeInfo = await axios.get("/episode/" + id + ".json");
-            console.log("testing episodeInfo", episodeInfo);
+            const { data } = await axios.get("/episode/" + id + ".json");
+            setEpisodeData(data);
         })();
-    });
+    }, []);
 
     return (
-        <div className="episodeInfo">
-            <h1> Welcome to episode </h1>
+        <div>
+            {episodeData && (
+                <div>
+                    <h1> Welcome to episode {episodeData.title} </h1>
+                    <img src={episodeData.picture} />
+                    <p>Duration: {episodeData.duration}</p>
+                    <h2>What to expect from this episode?</h2>
+                    <p>{episodeData.description}</p>
+                    <audio controls src={episodeData.audio} />
+                </div>
+            )}
         </div>
     );
 }

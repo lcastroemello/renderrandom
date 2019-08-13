@@ -5,21 +5,20 @@ import { Route, BrowserRouter, Link } from "react-router-dom";
 import Uploader from "./uploader";
 import ProfilePic from "./profilepic";
 import Profile from "./profile";
-import BioEditor from "./bioeditor";
-import Brofile from "./brofile";
 import Search from "./search";
 import Favorites from "./favorites";
 import Chat from "./chat";
-import GroupChat from "./groupChat";
 import ProfileEditor from "./profileeditor";
 import Admin from "./admin";
 import Episode from "./episode";
+import BioEditor from "./bioeditor";
 
 export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             uploaderIsVisible: false,
+            playerIsVisible: false,
             bio: "",
             adminMode: false
         };
@@ -207,15 +206,6 @@ export default class App extends React.Component {
                                             history={props.history}
                                             userId={this.state.id}
                                         />
-                                    </div>
-                                )}
-                            />
-
-                            <Route
-                                path="/groupchat"
-                                render={props => (
-                                    <div>
-                                        <GroupChat />
                                     </div>
                                 )}
                             />

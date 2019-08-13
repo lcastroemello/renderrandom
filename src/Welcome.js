@@ -7,6 +7,7 @@ import Login from "./login";
 export default function Welcome() {
     return (
         <HashRouter>
+            <div id="vinyl" />
             <div className="welcomePage">
                 <div className="circlecontainer">
                     <div className="maincircle">

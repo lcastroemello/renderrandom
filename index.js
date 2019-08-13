@@ -267,34 +267,12 @@ app.post("/editprofile", async function(req, res) {
     }
 });
 
-//------------------------------Rendering brofile----------------------
-
-app.get("/user/:id.json", async (req, res) => {
-    try {
-        if (req.params.id != req.session.userId) {
-            let userData = await db.getUserById(req.params.id);
-            if (userData) {
-                res.json(userData.rows[0]);
-            } else {
-                res.json("user does not exist");
-            }
-        } else {
-            res.json("same user");
-        }
-    } catch (err) {
-        console.log("err in get brofile", err);
-        res.json("user does not exist");
-    }
-});
-
 //---------------------RENDERING each episode--------------------
 
 app.get("/episode/:id.json", async (req, res) => {
     try {
-        console.log(req.params.id);
-        let { data } = await db.getEpisodeById(req.params.id);
-        console.log("testing episode info", data);
-        res.json("it worked");
+        let data = await db.getEpisodeById(req.params.id);
+        res.json(data.rows[0]);
     } catch (err) {
         console.log("err in get single episode", err);
     }

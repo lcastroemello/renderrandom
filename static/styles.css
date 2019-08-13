@@ -24,8 +24,8 @@ h2 {
     display: grid;
     grid-template-columns: 1fr 80px 1fr;
     grid-template-rows: 50% 50%;
-    border: 1px double #e2bc37;
-    padding: 15px;
+    border: 8px double #e2bc37;
+    padding: 10px;
     background-clip: content-box;
     width: 38rem;
     height: 38rem;
@@ -116,17 +116,33 @@ h2 {
 }
 /* ----------------------------------Welcome page */
 
+#vinyl {
+    background: url("vinyl.jpg");
+    position: absolute;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 200%;
+    width: 100%;
+    overflow: hidden;
+    animation: spin 10s linear infinite;
+    z-index: 0;
+    bottom: -50%;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
 .welcomePage {
     display: grid;
     grid-template-rows: 0.5fr 0.5fr 0.5fr 0.5fr;
     grid-template-columns: 1fr 0.5fr 0.5fr 1fr;
     justify-self: center;
-    background: #f5fcef;
-    height: 100vh;
-    width: 100vw;
-    background-image: url("vinyl.jpg");
-    background-size: 100%;
-    background-position: center;
     z-index: 0;
 }
 .circlecontainer {
@@ -135,7 +151,6 @@ h2 {
     align-items: center;
     height: 100vh;
     width: 100vw;
-
     position: absolute;
     top: 0;
     left: 0;
@@ -217,22 +232,10 @@ h2 {
     background: #f5fcef;
     height: 100vh;
     width: 100vw;
-    background-image: url("vinyl.jpg");
-    background-size: cover;
+    background-image: url("/vinyl.jpg");
     background-position: center;
-    postion: absolute;
-    /* animation: spin 2s linear infinite; */
     z-index: 0;
 }
-
-/* @keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-} */
 
 .firstquadrant {
     z-index: 20;
