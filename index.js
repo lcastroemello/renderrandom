@@ -158,7 +158,6 @@ app.post("/login", function(req, res) {
 
 app.get("/user", async (req, res) => {
     let user = await db.getUserById(req.session.userId);
-    console.log("testing get user by id", user.rows[0]);
     user = user.rows[0];
     if (!user.picture) {
         user.picture = "/default.png";
@@ -179,6 +178,50 @@ app.post("/upload", uploader.single("file"), s3.upload, function(req, res) {
 
     //end of req.file if else
 }); //end of app.post
+
+// --------------------------ADD/EDIT podcast episodes--
+
+var cpUpload = uploader.fields([
+    { name: "audio", maxCount: 1 },
+    { name: "picture", maxCount: 1 }
+]);
+app.post("/addEpisode.json", cpUpload, s3.upload, async function(req, res) {
+    const audioUrl = config.s3Url + req.files.audio[0].filename;
+    const pictureUrl = config.s3Url + req.files.picture[0].filename;
+    try {
+        let addEpisodeInfo = await db.addEpisode(
+            req.body.title,
+            req.body.summary,
+            req.body.description,
+            req.body.duration,
+            audioUrl,
+            pictureUrl
+        );
+        console.log("testing add episode", addEpisodeInfo);
+        console.log("testing my tags", req.body);
+    } catch (err) {
+        console.log("err in add episode", err);
+    }
+});
+
+app.post("/editEpisode.json", cpUpload, s3.upload, async function(req, res) {
+    const audioUrl = config.s3Url + req.files.audio[0].filename;
+    const pictureUrl = config.s3Url + req.files.picture[0].filename;
+    try {
+        let editEpisodeInfo = await db.editEpisode(
+            req.body.title,
+            req.body.summary,
+            req.body.description,
+            req.body.duration,
+            audioUrl,
+            pictureUrl
+            // PUT THE EPISODE ID HERE
+        );
+        console.log("testing add episode", editEpisodeInfo);
+    } catch (err) {
+        console.log("err in add episode", err);
+    }
+});
 
 //--------------Add/Edit bio-------------------------------------------
 app.post("/bio", async (req, res) => {
@@ -244,6 +287,19 @@ app.get("/user/:id.json", async (req, res) => {
     }
 });
 
+//---------------------RENDERING each episode--------------------
+
+app.get("/episode/:id.json", async (req, res) => {
+    try {
+        console.log(req.params.id);
+        let { data } = await db.getEpisodeById(req.params.id);
+        console.log("testing episode info", data);
+        res.json("it worked");
+    } catch (err) {
+        console.log("err in get single episode", err);
+    }
+});
+
 //----------------------FIND episodes--------------------------------
 
 app.get("/episodes.json", async function(req, res) {
@@ -286,17 +342,17 @@ app.get("/episodes/3/:val.json", async function(req, res) {
 
 //-------------------------FRIENDSHIP BUTTON------------------------------------
 
-app.get("/getbutton/:broId", async function(req, res) {
-    try {
-        const getButton = await db.getFriendshipStatus(
-            req.session.userId,
-            req.params.broId
-        );
-        res.json(getButton.rows);
-    } catch (err) {
-        console.log("err in get getbutton", err);
-    }
-});
+// app.get("/getbutton/:broId", async function(req, res) {
+//     try {
+//         const getButton = await db.getFriendshipStatus(
+//             req.session.userId,
+//             req.params.broId
+//         );
+//         res.json(getButton.rows);
+//     } catch (err) {
+//         console.log("err in get getbutton", err);
+//     }
+// });
 
 app.post("/getbutton/add/:broId", async function(req, res) {
     try {
@@ -335,15 +391,15 @@ app.post("/getbutton/accept/:broId", async function(req, res) {
 });
 
 //-----------------------FRIENDS PAGE----------------
-app.get("/friends.json", function(req, res) {
-    try {
-        db.getListOfUsers(req.session.userId).then(list => {
-            res.json(list);
-        });
-    } catch (err) {
-        console.log("err in get friendsList", err);
-    }
-});
+// app.get("/friends.json", function(req, res) {
+//     try {
+//         db.getListOfUsers(req.session.userId).then(list => {
+//             res.json(list);
+//         });
+//     } catch (err) {
+//         console.log("err in get friendsList", err);
+//     }
+// });
 // -----------------------RENDERING WELCOME (KEEP IT IN THE END)-----------------
 
 app.get("*", function(req, res) {

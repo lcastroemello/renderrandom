@@ -218,10 +218,21 @@ h2 {
     height: 100vh;
     width: 100vw;
     background-image: url("vinyl.jpg");
-    background-size: 100%;
+    background-size: cover;
     background-position: center;
+    postion: absolute;
+    /* animation: spin 2s linear infinite; */
     z-index: 0;
 }
+
+/* @keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+} */
 
 .firstquadrant {
     z-index: 20;
@@ -352,4 +363,19 @@ h2 {
     justify-self: center;
     grid-row: 3/4;
     padding-bottom: 3rem;
+}
+
+/* ------------------------------------admin page */
+
+.addepisode {
+    display: flex;
+    flex-direction: column;
+    padding-left: 3rem;
+    width: 30rem;
+    height: 50rem;
+}
+
+.textareaadd {
+    height: 10rem;
+    width: 10rem;
 }

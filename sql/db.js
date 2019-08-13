@@ -72,38 +72,38 @@ exports.getEpisodesInSearch = function getEpisodesInSearch(val) {
 
 //--------------------GETTING INFO from frienships---------------------
 
-exports.getFriendshipStatus = function getFriendshipStatus(
-    sender_id,
-    receiver_id
-) {
-    return db.query(
-        "SELECT * FROM friendships WHERE (sender_id =$1 AND receiver_id=$2) OR (sender_id=$2 AND receiver_id=$1)",
-        [sender_id, receiver_id]
-    );
-};
+// exports.getFriendshipStatus = function getFriendshipStatus(
+//     sender_id,
+//     receiver_id
+// ) {
+//     return db.query(
+//         "SELECT * FROM friendships WHERE (sender_id =$1 AND receiver_id=$2) OR (sender_id=$2 AND receiver_id=$1)",
+//         [sender_id, receiver_id]
+//     );
+// };
 
 //-----------------ADDING INFO to friendships-------------------------
 
-exports.addFriendship = function addFriendship(sender_id, receiver_id) {
-    return db.query(
-        "INSERT INTO friendships (sender_id, receiver_id) VALUES ($1, $2) RETURNING accepted",
-        [sender_id, receiver_id]
-    );
-};
+// exports.addFriendship = function addFriendship(sender_id, receiver_id) {
+//     return db.query(
+//         "INSERT INTO friendships (sender_id, receiver_id) VALUES ($1, $2) RETURNING accepted",
+//         [sender_id, receiver_id]
+//     );
+// };
 
-exports.deleteFriendship = function deleteFriendship(sender_id, receiver_id) {
-    return db.query(
-        "DELETE FROM friendships WHERE sender_id = $1 AND receiver_id = $2",
-        [sender_id, receiver_id]
-    );
-};
+// exports.deleteFriendship = function deleteFriendship(sender_id, receiver_id) {
+//     return db.query(
+//         "DELETE FROM friendships WHERE sender_id = $1 AND receiver_id = $2",
+//         [sender_id, receiver_id]
+//     );
+// };
 
-exports.acceptFriendship = function acceptFriendship(sender_id, receiver_id) {
-    return db.query(
-        "UPDATE friendships SET accepted = true WHERE sender_id = $1 AND receiver_id = $2",
-        [sender_id, receiver_id]
-    );
-};
+// exports.acceptFriendship = function acceptFriendship(sender_id, receiver_id) {
+//     return db.query(
+//         "UPDATE friendships SET accepted = true WHERE sender_id = $1 AND receiver_id = $2",
+//         [sender_id, receiver_id]
+//     );
+// };
 
 //-----------------ADDING INFO chats-----------------------------
 
@@ -127,14 +127,64 @@ exports.addGroupChatMessage = function addGroupChatMessage(
     );
 };
 
-//--------------------GETTING INFO multiple tables--------------------
+// -----------------ADDING INFO into episodes---------------------
 
-exports.getListOfUsers = function getListOfUsers(id) {
+exports.addEpisode = function addEpisode(
+    title,
+    summary,
+    description,
+    duration,
+    audio,
+    picture
+) {
     return db.query(
-        "SELECT users.id, first, last, picture, accepted FROM friendships JOIN users ON (accepted = false AND receiver_id =$1 AND sender_id = users.id) OR (accepted = true AND receiver_id = $1 AND sender_id = users.id) OR (accepted = true AND sender_id = $1 AND receiver_id = users.id)",
-        [id]
+        "INSERT INTO episodes (title, summary, description, duration, audio, picture) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id",
+        [title, summary, description, duration, audio, picture]
     );
 };
+
+exports.editEpisode = function editEpisode(
+    title,
+    summary,
+    description,
+    duration,
+    audio,
+    picture,
+    episode_id
+) {
+    return db.query(
+        "UPDATE episodes SET title =$1, summary =$2, description=$3, duration=$4, audio=$5, picture=$6 WHERE id=$7",
+        [title, summary, description, duration, audio, picture, episode_id]
+    );
+};
+
+exports.deleteEpisode = function deleteEpisode(id) {
+    return db.query("DELETE FROM episodes WHERE id=$1", [id]);
+};
+
+// -------------------------ADDING INFO into TAGS------------------------
+
+exports.addTags = function addTags(episode_id, tag) {
+    return db.query(
+        "INSERT INTO tags (episode, tag) VALUES ($1, $2) RETURNING id",
+        [episode_id, tag]
+    );
+};
+
+// ---------------------GETTING INFO from episodes----------------
+
+exports.getEpisodeById = function getEpisodeById(episode_id) {
+    return db.query("SELECT * FROM episodes WHERE id = $1", [episode_id]);
+};
+
+//--------------------GETTING INFO multiple tables--------------------
+
+// exports.getListOfUsers = function getListOfUsers(id) {
+//     return db.query(
+//         "SELECT users.id, first, last, picture, accepted FROM friendships JOIN users ON (accepted = false AND receiver_id =$1 AND sender_id = users.id) OR (accepted = true AND receiver_id = $1 AND sender_id = users.id) OR (accepted = true AND sender_id = $1 AND receiver_id = users.id)",
+//         [id]
+//     );
+// };
 
 exports.getEpisodesByTag = function getEpisodesByTag(tagname) {
     return db.query(

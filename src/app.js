@@ -12,20 +12,25 @@ import Favorites from "./favorites";
 import Chat from "./chat";
 import GroupChat from "./groupChat";
 import ProfileEditor from "./profileeditor";
+import Admin from "./admin";
+import Episode from "./episode";
 
 export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             uploaderIsVisible: false,
-            bio: ""
+            bio: "",
+            adminMode: false
         };
         this.editprofile = this.editprofile.bind(this);
     } //end of constructor
     async componentDidMount() {
         const { data } = await axios.get("/user");
-        console.log("testing what I get back", data);
         this.setState(data);
+        if (this.state.id === 1) {
+            this.setState({ adminMode: true });
+        }
     }
 
     editprofile(newprofiledetails) {
@@ -88,69 +93,68 @@ export default class App extends React.Component {
                             </div>
                         )}
 
-                        <div className="firstquadrant">
-                            <Route
-                                exact
-                                path="/"
-                                render={() => (
-                                    <div>
-                                        <Profile
-                                            picture={this.state.picture}
-                                            first={this.state.first}
-                                            last={this.state.last}
-                                            displayname={this.state.displayname}
-                                            bioEditor={
-                                                <BioEditor
-                                                    bio={this.state.bio}
-                                                    done={bio =>
-                                                        this.setState({ bio })
-                                                    }
-                                                    close={() =>
-                                                        this.setState({
-                                                            editing: false
-                                                        })
-                                                    }
-                                                />
-                                            }
-                                            profileEditor={
-                                                <ProfileEditor
-                                                    first={this.state.first}
-                                                    last={this.state.last}
-                                                    displayname={
-                                                        this.state.displayname
-                                                    }
-                                                    done={this.editprofile}
-                                                    close={() =>
-                                                        this.setState({
-                                                            editing: false
-                                                        })
-                                                    }
-                                                />
-                                            }
-                                            profilePic={
-                                                <ProfilePic
-                                                    first={this.state.first}
-                                                    last={this.state.last}
-                                                    displayname={
-                                                        this.state.displayname
-                                                    }
-                                                    picture={this.state.picture}
-                                                    size={"jumbo"}
-                                                    onClick={() => {
-                                                        console.log(
-                                                            "testing pic click"
-                                                        );
-                                                        this.setState({
-                                                            uploaderIsVisible: true
-                                                        });
-                                                    }}
-                                                />
-                                            }
-                                        />
-                                    </div>
-                                )}
-                            />
-                        </div>
+                        <Route
+                            exact
+                            path="/"
+                            render={() => (
+                                <div className="firstquadrant">
+                                    <Profile
+                                        picture={this.state.picture}
+                                        first={this.state.first}
+                                        last={this.state.last}
+                                        displayname={this.state.displayname}
+                                        bioEditor={
+                                            <BioEditor
+                                                bio={this.state.bio}
+                                                done={bio =>
+                                                    this.setState({ bio })
+                                                }
+                                                close={() =>
+                                                    this.setState({
+                                                        editing: false
+                                                    })
+                                                }
+                                            />
+                                        }
+                                        profileEditor={
+                                            <ProfileEditor
+                                                first={this.state.first}
+                                                last={this.state.last}
+                                                displayname={
+                                                    this.state.displayname
+                                                }
+                                                done={this.editprofile}
+                                                close={() =>
+                                                    this.setState({
+                                                        editing: false
+                                                    })
+                                                }
+                                            />
+                                        }
+                                        profilePic={
+                                            <ProfilePic
+                                                first={this.state.first}
+                                                last={this.state.last}
+                                                displayname={
+                                                    this.state.displayname
+                                                }
+                                                picture={this.state.picture}
+                                                size={"jumbo"}
+                                                onClick={() => {
+                                                    console.log(
+                                                        "testing pic click"
+                                                    );
+                                                    this.setState({
+                                                        uploaderIsVisible: true
+                                                    });
+                                                }}
+                                            />
+                                        }
+                                    />
+                                </div>
+                            )}
+                        />
+
                         <div className="secondquadrant">
                             <Route
                                 path="/search"
@@ -164,10 +168,20 @@ export default class App extends React.Component {
 
                         <div className="thirdquadrant">
                             <Route
-                                path="/favorites"
+                                exact
+                                path="/"
                                 render={props => (
                                     <div>
-                                        <Favorites />
+                                        {this.state.adminMode && (
+                                            <div>
+                                                <Admin />
+                                            </div>
+                                        )}
+                                        {!this.state.adminMode && (
+                                            <div>
+                                                <Favorites />
+                                            </div>
+                                        )}
                                     </div>
                                 )}
                             />
@@ -179,6 +193,20 @@ export default class App extends React.Component {
                                 render={props => (
                                     <div>
                                         <Chat />
+                                    </div>
+                                )}
+                            />
+
+                            <Route
+                                path="/episode/:id"
+                                render={props => (
+                                    <div>
+                                        <Episode
+                                            key={props.match.url}
+                                            match={props.match}
+                                            history={props.history}
+                                            userId={this.state.id}
+                                        />
                                     </div>
                                 )}
                             />

@@ -14,33 +14,39 @@ const s3 = new aws.S3({
 });
 
 exports.upload = (req, res, next) => {
-    const { file } = req;
-    if (!file) {
+    const { files } = req;
+    if (!files) {
         console.log("multer failed =(");
         return res.sendStatus(500);
     }
 
-    const { filename, mimetype, size, path } = req.file;
-    s3.putObject({
-        Bucket: "myimgboard",
-        ACL: "public-read",
-        Key: filename,
-        Body: fs.createReadStream(path),
-        // this creates a pipeline
-        ContentType: mimetype,
-        ContentLength: size
-    })
-        .promise()
-        .then(data => {
-            console.log("data from s3.putobject", data);
-            next();
+    for (var prop in req.files) {
+        let eachEpisode = req.files[prop][0];
+
+        const { filename, mimetype, size, path } = eachEpisode;
+
+        s3.putObject({
+            Bucket: "renderrandom",
+            ACL: "public-read",
+            Key: filename,
+            Body: fs.createReadStream(path),
+            // this creates a pipeline
+            ContentType: mimetype,
+            ContentLength: size
         })
-        .catch(err => {
-            console.log(err);
-            res.sendStatus(500);
-        })
-        .then(() => {
-            fs.promises.unlink(path);
-            // this deletes our files from the uploads files
-        });
+            .promise()
+            .then(data => {
+                console.log("data from s3.putobject", data);
+                next();
+            })
+            .catch(err => {
+                console.log(err);
+                res.sendStatus(500);
+            })
+            .then(() => {
+                fs.promises.unlink(path);
+                // this deletes our files from the uploads files
+            });
+    }
+    //
 };
