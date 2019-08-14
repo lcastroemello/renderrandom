@@ -430,7 +430,6 @@ io.on("connection", socket => {
     socket.on("getComments", async episodeId => {
         try {
             let comments = await db.getComments(episodeId);
-
             comments.rows.forEach(i => {
                 i.created_at = moment(i.created_at, moment.ISO_8601).fromNow();
             });

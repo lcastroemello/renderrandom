@@ -21,7 +21,8 @@ export default class App extends React.Component {
             playerIsVisible: false,
             bio: "",
             adminMode: false,
-            episodepage: false
+            episodepage: false,
+            playing: "off"
         };
         this.editprofile = this.editprofile.bind(this);
     } //end of constructor
@@ -31,11 +32,20 @@ export default class App extends React.Component {
         if (this.state.id === 1) {
             this.setState({ adminMode: true });
         }
+        this.setState({ playing: "off" });
     }
 
     editprofile(newprofiledetails) {
         console.log("testing state in app", this.state);
         this.setState(newprofiledetails);
+    }
+
+    spin() {
+        if (this.state.playing == "off") {
+            this.setState({ playing: "on" });
+        } else if (this.state.playing == "on") {
+            this.setState({ playing: "off" });
+        }
     }
 
     render() {
@@ -65,11 +75,7 @@ export default class App extends React.Component {
                                 <span className="char15">M</span>
                             </h1>
 
-                            <a
-                                className="button logout"
-                                id="nav-link"
-                                href="/logout"
-                            >
+                            <a className="logout" id="nav-link" href="/logout">
                                 Log out
                             </a>
                         </div>
@@ -116,6 +122,11 @@ export default class App extends React.Component {
                                                 bio={this.state.bio}
                                                 done={bio =>
                                                     this.setState({ bio })
+                                                }
+                                                mounts={() =>
+                                                    this.setState({
+                                                        episodepage: false
+                                                    })
                                                 }
                                                 close={() =>
                                                     this.setState({
@@ -201,6 +212,7 @@ export default class App extends React.Component {
                                             match={props.match}
                                             history={props.history}
                                             userId={this.state.id}
+                                            playing={this.spin}
                                             mounts={() =>
                                                 this.setState({
                                                     episodepage: true

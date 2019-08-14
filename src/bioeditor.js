@@ -11,6 +11,7 @@ export default class BioEditor extends React.Component {
     }
     componentDidMount() {
         this.setState((state, props) => ({ draft: props.bio }));
+        this.props.mounts();
     }
     draft(e) {
         this.setState({

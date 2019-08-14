@@ -11,12 +11,12 @@ h1 {
 
 h2 {
     font-family: monospace;
-    font-size: 0.9rem;
+    font-size: 1.5rem;
     color: #e2bc37;
 }
 
 h3 {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     color: #e2bc37;
 }
 
@@ -26,13 +26,16 @@ button {
 
 p {
     font-family: monospace;
-    font-size: 0.9rem;
+    font-size: 1.2rem;
     color: black;
 }
 
 input {
     border: none;
 }
+/* input::placeholder {
+    color: white;
+} */
 
 .fakebutton {
     border: black 1px dotted;
@@ -140,10 +143,12 @@ input {
 .logout {
     grid-column: 2/3;
     grid-row: 2/3;
-    align-self: baseline;
+    display: flex;
+    align-items: flex-end;
     heigth: 100px;
     text-align: center;
-    z-index: 30;
+    z-index: 500;
+    padding: 2rem;
 }
 /* ----------------------------------Welcome page */
 
@@ -253,12 +258,9 @@ input {
     grid-template-rows: 0.5fr 0.5fr 0.5fr 0.5fr;
     grid-template-columns: 1fr 0.5fr 0.5fr 1fr;
     justify-self: center;
-    background: #f5fcef;
     height: 100vh;
     width: 100vw;
-    background-image: url("/vinyl.jpg");
-    background-position: center;
-    z-index: 0;
+    z-index: 1;
     /* overflow: hidden; */
 }
 
@@ -354,7 +356,7 @@ input {
     grid-template-rows: 1fr 1fr;
     justify-items: center;
     align-items: center;
-
+    padding-bottom: 2rem;
     text-align: center;
     height: 100vh;
 }
@@ -376,6 +378,33 @@ input {
     height: 100%;
     justify-items: center;
     overflow: scroll;
+}
+.eachsearchresult {
+    display: grid;
+    grid-template-columns: 8rem 1fr;
+    grid-template-rows: 2rem 1fr 2rem;
+}
+
+.resultspic {
+    grid-column: 1/2;
+    grid-row: 1/4;
+    width: 100%;
+    height: 100%;
+}
+
+.resultstitle {
+    grid-column: 2/3;
+    grid-row: 1/2;
+}
+
+.resultssummary {
+    grid-column: 2/3;
+    grid-row: 2/3;
+}
+
+.resultspecs {
+    grid-column: 2/3;
+    grid-row: 3/4;
 }
 
 /* -----------------------------------------UPLOADER */
@@ -501,7 +530,7 @@ input {
     justify-self: center;
     height: 100vh;
     width: 100vw;
-    z-index: 300;
+    /* z-index: 300; */
     grid-column: 1/5;
     grid-row: 1/5;
 }
@@ -521,7 +550,7 @@ input {
     grid-column: 4/5;
     grid-row: 1/5;
     padding-left: 2rem;
-    align-items: center;
+    align-self: center;
     width: 100%;
 }
 
@@ -543,33 +572,35 @@ input {
 }
 .eachcomment {
     display: grid;
-    grid-template-columns: 8rem 1fr;
+    grid-template-columns: 1fr 8rem;
     grid-template-rows: 2rem 1fr 2rem;
+    text-align: right;
+    border-bottom: 1px dotted #e2bc37;
 }
 
 .commenterpic {
-    grid-column: 1/2;
+    grid-column: 2/3;
     grid-row: 1/4;
     height: 100%;
     width: 100%;
 }
 
 .commentername {
-    grid-column: 2/3;
+    grid-column: 1/2;
     grid-row: 1/2;
     padding: 0.5rem;
     color: #e2bc37;
 }
 
 .commenttext {
-    grid-column: 2/3;
+    grid-column: 1/2;
     grid-row: 2/3;
     padding: 0.5rem;
     color: #e2bc37;
 }
 
 .commenttime {
-    grid-column: 2/3;
+    grid-column: 1/2;
     grid-row: 3/4;
     padding: 0.5rem;
     color: #e2bc37;
@@ -594,6 +625,7 @@ input {
     grid-column: 1/2;
     text-align: center;
     display: flex;
+    justify-self: center;
 }
 
 .player {
@@ -605,7 +637,7 @@ input {
     justify-items: center;
     text-align: center;
     border: #e2bc37;
-    z-index: 300;
+    z-index: 500;
 }
 
 .playerwrapper {
@@ -620,20 +652,33 @@ input {
     grid-row: 1/2;
     grid-column: 1/2;
     font-size: 6rem;
+    padding: 2rem;
 }
 
-.description {
+.episodeinfo {
     grid-row: 3/5;
     grid-column: 1/2;
     font-size: 1rem;
+    border: double 3px #e2bc37;
+    padding: 2rem;
+    margin: 2rem;
+    border-radius: 30%;
 }
-
+.description {
+    font-size: 1.3rem;
+    color: #e2bc37;
+}
+.infotitle {
+    text-align: center;
+}
 .duration {
     font-family: monospace;
     font-size: 1rem;
-    color: #5e0704;
-    border: 3px double #5e0704;
+    color: #e2bc37;
     height: 2rem;
     width: 10rem;
-    background: rgba(226, 188, 55, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: underline;
 }

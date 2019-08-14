@@ -109,36 +109,29 @@ export default function Search() {
                     {episodes &&
                         episodes.map(episodes => {
                             return (
-                                <div
-                                    key={episodes.id}
-                                    style={{
-                                        display: "grid",
-                                        gridTemplateColumns: "5rem 1fr",
-                                        justifyItems: "center"
-                                    }}
-                                >
-                                    <Link to={`/episodes/${episodes.id}`}>
-                                        <img
-                                            style={{
-                                                gridColumn: 1 / 2,
-                                                height: 5 + "rem",
-                                                width: 5 + "rem",
-                                                objectFit: "cover"
-                                            }}
-                                            src={episodes.picture}
-                                            alt={episodes.summary}
-                                        />
-                                    </Link>
-                                    <h2
-                                        style={{
-                                            gridColumn: 2 / 3
-                                        }}
-                                    >
-                                        {episodes.title}
-                                    </h2>
-                                    <h2>{episodes.summary}</h2>
-                                    <h4>Duration: {episodes.duration}</h4>
-                                    <h4>{episodes.created_at}</h4>
+                                <div key={episodes.id}>
+                                    <div className="eachsearchresult">
+                                        <Link
+                                            className="resultspic"
+                                            to={`/episode/${episodes.id}`}
+                                        >
+                                            <img
+                                                src={episodes.picture}
+                                                alt={episodes.summary}
+                                                className="resultspic"
+                                            />
+                                        </Link>
+                                        <h2 className="resultstitle">
+                                            {episodes.title}
+                                        </h2>
+                                        <h2 className="resultssummary">
+                                            {episodes.summary}
+                                        </h2>
+                                        <h4 className="resultspecs">
+                                            Duration: {episodes.duration} 🎤
+                                            {episodes.created_at}
+                                        </h4>
+                                    </div>
                                 </div>
                             );
                         })}

@@ -13,6 +13,10 @@ export default function Episode(props) {
         props.mounts();
     }, []);
 
+    const makespin = e => {
+        props.playing();
+    };
+
     return (
         <div>
             {episodeData && (
@@ -22,20 +26,23 @@ export default function Episode(props) {
                     </h1>
                     <img className="episodepic" src={episodeData.picture} />
 
-                    <div className="description">
-                        <h3>What to expect from this episode?</h3>
+                    <div className="episodeinfo">
+                        <h3 className="infotitle">
+                            What to expect from this episode?
+                        </h3>
                         <br />
                         <p className="duration">
                             Duration: {episodeData.duration}
                         </p>
                         <br />
-                        <p>{episodeData.description}</p>
+                        <p className="description">{episodeData.description}</p>
                     </div>
                     <div className="playerwrapper">
                         <audio
                             className="player"
                             controls
                             src={episodeData.audio}
+                            onClick={makespin}
                         />
                     </div>
                     <div className="commentsection">
