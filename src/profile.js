@@ -10,8 +10,10 @@ export default function Profile(props) {
             <div className="profilepicinmyprofile">{props.profilePic}</div>
             <div className="textinmyprofile">
                 <h1>
-                    Hello {props.first} {props.last}! Good to have you back!
+                    Hello {props.first} {props.last}! <br />
+                    Good to have you back!
                 </h1>
+                <br />
                 <h2>
                     When you make comments, your name will appear as:
                     {props.displayname}
@@ -19,6 +21,7 @@ export default function Profile(props) {
                 <br />
                 <div className="profilebuttons">
                     {props.bioEditor}
+                    <br />
                     {props.profileEditor}
                 </div>
             </div>

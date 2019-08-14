@@ -7,6 +7,7 @@ const db = require("./sql/db");
 const cookieSession = require("cookie-session");
 const csurf = require("csurf");
 const s3 = require("./s3");
+const s3multiple = require("./s3multiple");
 var moment = require("moment");
 const config = require("./config");
 const server = require("http").Server(app);
@@ -154,6 +155,14 @@ app.post("/login", function(req, res) {
         });
 });
 
+// -------------------LOGOUT------------------------------
+
+app.get("/logout", (req, res) => {
+    req.session = null;
+    res.redirect("/welcome#");
+    console.log("confirming logout");
+});
+
 //---------------------RENDERING APP------------
 
 app.get("/user", async (req, res) => {
@@ -185,9 +194,13 @@ var cpUpload = uploader.fields([
     { name: "audio", maxCount: 1 },
     { name: "picture", maxCount: 1 }
 ]);
-app.post("/addEpisode.json", cpUpload, s3.upload, async function(req, res) {
+app.post("/addEpisode.json", cpUpload, s3multiple.upload, async function(
+    req,
+    res
+) {
     const audioUrl = config.s3Url + req.files.audio[0].filename;
     const pictureUrl = config.s3Url + req.files.picture[0].filename;
+    const tags = req.body.tags.split(",");
     try {
         let addEpisodeInfo = await db.addEpisode(
             req.body.title,
@@ -197,14 +210,21 @@ app.post("/addEpisode.json", cpUpload, s3.upload, async function(req, res) {
             audioUrl,
             pictureUrl
         );
-        console.log("testing add episode", addEpisodeInfo);
-        console.log("testing my tags", req.body);
+        tags.forEach(i => {
+            (async () => {
+                let addTags = await db.addTags(addEpisodeInfo.rows[0].id, i);
+                console.log("testing addTags", addTags);
+            })();
+        });
     } catch (err) {
         console.log("err in add episode", err);
     }
 });
 
-app.post("/editEpisode.json", cpUpload, s3.upload, async function(req, res) {
+app.post("/editEpisode.json", cpUpload, s3multiple.upload, async function(
+    req,
+    res
+) {
     const audioUrl = config.s3Url + req.files.audio[0].filename;
     const pictureUrl = config.s3Url + req.files.picture[0].filename;
     try {

@@ -6,11 +6,32 @@
 h1 {
     font-size: 2rem;
     color: #e2bc37;
+    font-family: monospace;
 }
 
 h2 {
+    font-family: monospace;
     font-size: 0.9rem;
     color: #e2bc37;
+}
+
+h3 {
+    font-size: 1.5rem;
+    color: #e2bc37;
+}
+
+button {
+    width: 4rem;
+}
+
+p {
+    font-family: monospace;
+    font-size: 0.9rem;
+    color: black;
+}
+
+input {
+    border: none;
 }
 
 .fakebutton {
@@ -36,7 +57,7 @@ h2 {
     grid-column: 1/3;
     grid-row: 1/2;
     color: #e2bc37;
-    font: 5rem Monaco, MonoSpace;
+    font: 4rem Monaco, MonoSpace;
     height: 300px;
     position: absolute;
     transform-origin: bottom center;
@@ -51,7 +72,7 @@ h2 {
     grid-row: 1/2;
     grid-column: 2/4;
     color: #e2bc37;
-    font: 5rem Monaco, Monospace;
+    font: 4rem Monaco, Monospace;
     height: 300px;
     position: absolute;
     transform-origin: bottom center;
@@ -82,7 +103,7 @@ h2 {
 }
 .char8 {
     grid-column: 2/3;
-    /* grid-row: 1/3; */
+    grid-row: 1/2;
     text-align: center;
     justify-content: center;
     padding-top: 2rem;
@@ -114,6 +135,13 @@ h2 {
     align-self: center;
     justify-self: right;
 }
+
+.logout {
+    grid-column: 2/3;
+    grid-row: 2/3;
+    align-items: baseline;
+    heigth: 100px;
+}
 /* ----------------------------------Welcome page */
 
 #vinyl {
@@ -128,6 +156,7 @@ h2 {
     animation: spin 10s linear infinite;
     z-index: 0;
     bottom: -50%;
+    /* left: -5%; */
 }
 
 @keyframes spin {
@@ -245,20 +274,21 @@ h2 {
 }
 .secondquadrant {
     z-index: 30;
-    background: rgba(255, 255, 255, 0.1);
+    /* background: rgba(255, 255, 255, 0.1); */
+    background: rgba(94, 7, 4, 0.3);
     grid-column: 3/5;
     grid-row: 1/3;
 }
 .thirdquadrant {
     z-index: 30;
-    /* background: rgba(94, 7, 4, 0.5); */
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(94, 7, 4, 0.3);
+    /* background: rgba(255, 255, 255, 0.1); */
     grid-column: 1/3;
     grid-row: 3/5;
 }
 .fourthquadrant {
     z-index: 30;
-    background: rgba(226, 188, 55, 0.5);
+    background: rgba(226, 188, 55, 0.3);
     grid-column: 3/5;
     grid-row: 3/5;
 }
@@ -271,6 +301,8 @@ h2 {
     grid-template-columns: 0.1fr 1fr;
     align-self: center;
     z-index: 25;
+    heigth: 50rem;
+    width: 40rem;
 }
 .profilepicinmyprofile {
     grid-column: 1/2;
@@ -280,8 +312,7 @@ h2 {
 .textinmyprofile {
     place-self: center/start;
     grid-column: 2/3;
-    padding: 0;
-    color: #5e0704;
+    padding-left: 1rem;
 }
 
 .uploader {
@@ -305,6 +336,14 @@ h2 {
     padding: 2rem;
 }
 
+/* --------------------------PROFILE PIC---------------------- */
+
+.profilePicture {
+    border-radius: 30%;
+    border: #5e0704 double 3px;
+    object-fit: cover;
+}
+
 /* ----------------------------------------------SEARCH FOR EPISODES */
 
 .search {
@@ -326,6 +365,7 @@ h2 {
     width: 100vw;
     display: grid;
     z-index: 200;
+    border-radius: 50%;
 }
 
 .inner {
@@ -339,6 +379,7 @@ h2 {
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    border-radius: 50%;
 }
 
 .uploaderpic {
@@ -371,14 +412,66 @@ h2 {
 /* ------------------------------------admin page */
 
 .addepisode {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    color: #e2bc37;
     padding-left: 3rem;
-    width: 30rem;
+    width: 25rem;
     height: 50rem;
+    grid-template-rows: 2rem 30rem;
 }
 
-.textareaadd {
-    height: 10rem;
-    width: 10rem;
+.addtitle {
+    grid-row: 1/2;
+}
+
+.addform {
+    grid-row: 2/3;
+    display: grid;
+    grid-template-columns: 25rem 10rem;
+    grid-template-rows: 2rem 2rem 2rem 2rem 6rem 6rem 2rem 2rem;
+}
+
+.addaudiofile {
+    display: flex;
+    flex-direction: row;
+    grid-row: 2/3;
+    grid-column: 1/2;
+}
+
+.addpicfile {
+    display: flex;
+    flex-direction: row;
+    grid-row: 3/4;
+    grid-column: 1/2;
+}
+
+.descriptionadd {
+    grid-column: 1/2;
+    grid-row: 6/7;
+}
+
+.tags {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    width: 8rem;
+    grid-column: 2/3;
+    grid-row: 1/8;
+}
+
+.tagTitle {
+    align-self: flex-start;
+    padding: 0.5rem;
+    grid-row: 1/2;
+}
+
+.label {
+    align-self: baseline;
+    justify-content: flex-start;
+    border-bottom: 1px solid black;
+}
+.checkboxInput {
+    align-self: baseline;
+    justify-content: flex-end;
+    border-bottom: 1px solid black;
 }

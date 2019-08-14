@@ -63,6 +63,14 @@ export default class App extends React.Component {
                                 <span className="char14">O</span>
                                 <span className="char15">M</span>
                             </h1>
+
+                            <a
+                                className="button logout"
+                                id="nav-link"
+                                href="/logout"
+                            >
+                                Log out
+                            </a>
                         </div>
                     </div>
                     <div className="podcastwrapper">

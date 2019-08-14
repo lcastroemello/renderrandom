@@ -56,13 +56,14 @@ export default class ProfileEditor extends React.Component {
             <div>
                 {this.state.editing && (
                     <div>
-                        <p onClick={() => this.setState({ editing: false })}>
+                        <p
+                            className="closetag"
+                            onClick={() => this.setState({ editing: false })}
+                        >
                             X
                         </p>
-                        <h3 style={{ color: "#334431", width: "50rem" }}>
-                            Edit your profile
-                        </h3>
-                        Username / Display Name
+                        <h3>Edit your profile</h3>
+                        Username / Display Name__
                         <input
                             name="displaynamedraft"
                             placeholder={this.props.displayname}
@@ -72,53 +73,37 @@ export default class ProfileEditor extends React.Component {
                             }}
                         />
                         <br />
-                        First Name{" "}
+                        First Name__
                         <input
                             name="firstdraft"
                             placeholder={this.props.first}
                             onChange={e => this.handleChange(e)}
-                            style={{
-                                border: "none"
-                            }}
                         />
                         <br />
-                        Last Name
+                        Last Name__
                         <input
                             name="lastdraft"
                             placeholder={this.props.last}
                             onChange={e => this.handleChange(e)}
-                            style={{
-                                border: "none"
-                            }}
                         />
                         <br />
-                        Password{" "}
+                        Password__
                         <input
                             name="pass"
                             type="password"
                             placeholder="new password"
                             onChange={e => this.handleChange(e)}
-                            style={{
-                                border: "none"
-                            }}
                         />
                         <br />
-                        Confirm Password{" "}
+                        Confirm Password__
                         <input
                             name="confpass"
                             type="password"
                             placeholder="confirm new password"
                             onChange={e => this.handleChange(e)}
-                            style={{
-                                border: "none"
-                            }}
                         />
                         <br />
                         <br />
-                        <style type="text/css">
-                            .button{`{background: #f5fcef;}`}
-                            .button:hover {`{background: #67912d;}`}
-                        </style>
                         <button
                             className="button"
                             style={{ border: "none" }}
@@ -131,18 +116,10 @@ export default class ProfileEditor extends React.Component {
                 {!this.state.editing && (
                     <div>
                         <div>
-                            {this.props.bio && (
-                                <p style={{ color: "#334431" }}>
-                                    {this.props.bio}
-                                </p>
-                            )}
-                            <style type="text/css">
-                                .button{`{background: #f5fcef;}`}
-                                .button:hover {`{background: #67912d;}`}
-                            </style>
+                            {this.props.bio && <p>{this.props.bio}</p>}
+
                             <button
                                 className="button"
-                                style={{ border: "none", color: "#334431" }}
                                 onClick={() => this.setState({ editing: true })}
                             >
                                 Edit your profile

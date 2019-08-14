@@ -38,13 +38,14 @@ export default class BioEditor extends React.Component {
             <div>
                 {this.state.editing && (
                     <div>
-                        <p onClick={() => this.setState({ editing: false })}>
+                        <p
+                            className="closetag"
+                            onClick={() => this.setState({ editing: false })}
+                        >
                             X
                         </p>
 
-                        <h3 style={{ color: "#334431", width: "50rem" }}>
-                            Tell us about yourself!
-                        </h3>
+                        <h3>Tell us about yourself!</h3>
                         <textarea
                             style={{ height: "10rem", width: "20rem" }}
                             onChange={({ target }) => {
@@ -60,17 +61,13 @@ export default class BioEditor extends React.Component {
                     <div>
                         <div>
                             {this.props.bio && (
-                                <p style={{ color: "#334431" }}>
-                                    {this.props.bio}
+                                <p>
+                                    {this.props.bio} <br />
                                 </p>
                             )}
-                            <style type="text/css">
-                                .button{`{background: #f5fcef;}`}
-                                .button:hover {`{background: #67912d;}`}
-                            </style>
+                            <br />
                             <button
                                 className="button"
-                                style={{ border: "none", color: "#334431" }}
                                 onClick={() => this.setState({ editing: true })}
                             >
                                 {this.props.bio ? "Edit bio" : "Add bio"}
