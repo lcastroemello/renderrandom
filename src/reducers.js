@@ -48,6 +48,20 @@ export default function(state = {}, action) {
         };
     }
 
+    if (action.type == "GET_COMMENTS") {
+        state = {
+            ...state,
+            comments: action.comments
+        };
+    }
+
+    if (action.type == "POST_NEW_COMMENT") {
+        state = {
+            ...state,
+            comments: [...state.comments, action.comment]
+        };
+    }
+
     if (action.type == "GET_GROUP_MESSAGES") {
         console.log("inside action get group messages");
         state = {

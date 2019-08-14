@@ -105,25 +105,12 @@ exports.getEpisodesInSearch = function getEpisodesInSearch(val) {
 //     );
 // };
 
-//-----------------ADDING INFO chats-----------------------------
+//-----------------ADDING INFO comments-----------------------------
 
-exports.addChatMessage = function addChatMessage(userId, msg) {
+exports.addComment = function addComment(userId, episode, comment, parent_id) {
     return db.query(
-        "INSERT INTO chats (sender_id, message) VALUES ($1, $2) RETURNING id, message, created_at",
-        [userId, msg]
-    );
-};
-
-//--------------------ADDING INFO into groupchat----------------
-
-exports.addGroupChatMessage = function addGroupChatMessage(
-    userId,
-    sender_group,
-    msg
-) {
-    return db.query(
-        "INSERT INTO groupchat (sender_id, sender_group, message) VALUES ($1, $2, $3) RETURNING id, message, created_at",
-        [userId, sender_group, msg]
+        "INSERT INTO comments (user_id, episode, comment, parent_id) VALUES ($1, $2, $3, $4) RETURNING id, comment, created_at",
+        [userId, episode, comment, parent_id]
     );
 };
 
@@ -200,18 +187,9 @@ exports.getEpisodesInSearch = function getEpisodesInSearch(val) {
     );
 };
 
-exports.getLast10Messages = function getLast10Messages() {
+exports.getComments = function getComments(episodeId) {
     return db.query(
-        "SELECT chats.id, group_tag, sender_id, message, chats.created_at, first, last, picture FROM chats  JOIN users ON users.id = sender_id ORDER BY chats.id DESC LIMIT 10"
+        "SELECT comments.id, user_id, comment, parent_id, comments.created_at, first, last, picture FROM comments JOIN users ON users.id = user_id  WHERE episode =$1 ORDER BY comments.id DESC",
+        [episodeId]
     );
 };
-
-exports.getLast10GroupMessages = function getLast10GroupMessages(group) {
-    return db.query(
-        "SELECT groupchat.id, sender_group, sender_id, message, groupchat.created_at, first, last, picture FROM groupchat JOIN users ON users.id = sender_id WHERE sender_group = $1 ORDER BY groupchat.id ASC LIMIT 10",
-        [group]
-    );
-};
-
-// updating with conditionals (info for the future)
-// UPDATE users SET group_tag='pro' WHERE id % 3 = 0

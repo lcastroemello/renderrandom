@@ -41,103 +41,107 @@ export default function Search() {
 
     return (
         <div className="search">
-            <h1>FIND EPISODES</h1>
-            {firstRender && <h2>Are you looking for episode in particular?</h2>}
-            <div>
-                {searchName && (
-                    <div>
-                        <h1>Find episode by name</h1>
-                        <div className="searchinput">
-                            <input onChange={e => setVal(e.target.value)} />
-                        </div>
-                        <p
-                            className="fakebutton"
-                            onClick={e => {
-                                setSearchName(false);
-                                setSearchTag(true);
-                            }}
-                        >
-                            Search by tag instead
-                        </p>
-                    </div>
-                )}
-
-                {searchTag && (
-                    <div>
-                        <label> Find episode by tag: </label>
-                        <select
-                            id="tag"
-                            name="tag"
-                            onChange={e => setVal(e.target.value)}
-                            style={{
-                                border: "none"
-                            }}
-                        >
-                            <option value="null" />
-                            <option value="Art and culture">
-                                Art and Culture
-                            </option>
-                            <option value="Food">Food</option>
-                            <option value="Nature and environment">
-                                Nature and Environment
-                            </option>
-                            <option value="Politics and history">
-                                Politics and History
-                            </option>
-                            <option value="Society">Society</option>
-                        </select>
-                        <p
-                            className="fakebutton"
-                            onClick={e => {
-                                setSearchName(true);
-                                setSearchTag(false);
-                            }}
-                        >
-                            Search by name instead
-                        </p>
-                    </div>
-                )}
-
+            <div className="searchbar">
                 <div>
-                    {firstRender && <h2>Checkout our latest episodes!</h2>}
-                    <div>
-                        {episodes &&
-                            episodes.map(episodes => {
-                                return (
-                                    <div
-                                        key={episodes.id}
+                    {searchName && (
+                        <div>
+                            <h1>Find episode by name</h1>
+                            <br />
+                            <div className="searchinput">
+                                <input onChange={e => setVal(e.target.value)} />
+                            </div>
+                            <p
+                                className="fakebutton"
+                                onClick={e => {
+                                    setSearchName(false);
+                                    setSearchTag(true);
+                                }}
+                            >
+                                Search by tag instead
+                            </p>
+                        </div>
+                    )}
+
+                    {searchTag && (
+                        <div>
+                            <h1> Find episode by tag: </h1>
+                            <br />
+                            <select
+                                id="tag"
+                                name="tag"
+                                onChange={e => setVal(e.target.value)}
+                                style={{
+                                    border: "none"
+                                }}
+                            >
+                                <option value="null" />
+                                <option value="Art and culture">
+                                    Art and Culture
+                                </option>
+                                <option value="Food">Food</option>
+                                <option value="Nature and environment">
+                                    Nature and Environment
+                                </option>
+                                <option value="Politics and history">
+                                    Politics and History
+                                </option>
+                                <option value="Society">Society</option>
+                            </select>
+                            <br />
+                            <br />
+                            <p
+                                className="fakebutton"
+                                onClick={e => {
+                                    setSearchName(true);
+                                    setSearchTag(false);
+                                }}
+                            >
+                                Search by name instead
+                            </p>
+                        </div>
+                    )}
+                </div>
+            </div>
+            <div className="episoderesults">
+                {firstRender && <h1>Checkout our latest episodes!</h1>}
+                <br />
+                <div>
+                    {episodes &&
+                        episodes.map(episodes => {
+                            return (
+                                <div
+                                    key={episodes.id}
+                                    style={{
+                                        display: "grid",
+                                        gridTemplateColumns: "5rem 1fr",
+                                        justifyItems: "center"
+                                    }}
+                                >
+                                    <Link to={`/episodes/${episodes.id}`}>
+                                        <img
+                                            style={{
+                                                gridColumn: 1 / 2,
+                                                height: 5 + "rem",
+                                                width: 5 + "rem",
+                                                objectFit: "cover"
+                                            }}
+                                            src={episodes.picture}
+                                            alt={episodes.summary}
+                                        />
+                                    </Link>
+                                    <h2
                                         style={{
-                                            display: "grid",
-                                            gridTemplateColumns: "5rem 1fr",
-                                            justifyItems: "center"
+                                            gridColumn: 2 / 3
                                         }}
                                     >
-                                        <Link to={`/episodes/${episodes.id}`}>
-                                            <img
-                                                style={{
-                                                    gridColumn: 1 / 2,
-                                                    height: 5 + "rem",
-                                                    width: 5 + "rem",
-                                                    objectFit: "cover"
-                                                }}
-                                                src={episodes.picture}
-                                                alt={episodes.summary}
-                                            />
-                                        </Link>
-                                        <h2
-                                            style={{
-                                                gridColumn: 2 / 3
-                                            }}
-                                        >
-                                            {episodes.title}
-                                        </h2>
-                                        <h2>{episodes.summary}</h2>
-                                        <h4>Duration: {episodes.duration}</h4>
-                                        <h4>{episodes.created_at}</h4>
-                                    </div>
-                                );
-                            })}
-                    </div>
+                                        {episodes.title}
+                                    </h2>
+                                    <h2>{episodes.summary}</h2>
+                                    <h4>Duration: {episodes.duration}</h4>
+                                    <h4>{episodes.created_at}</h4>
+                                </div>
+                            );
+                        })}
                 </div>
             </div>
         </div>

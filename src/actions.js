@@ -42,6 +42,21 @@ export function newChatMessage(msg) {
     };
 }
 
+export function getComments(comments) {
+    console.log("testing comments in actions", comments);
+    return {
+        type: "GET_COMMENTS",
+        comments
+    };
+}
+
+export function newComment(comment) {
+    return {
+        type: "POST_NEW_COMMENT",
+        comment
+    };
+}
+
 export function groupMessages(msgs) {
     return {
         type: "GET_GROUP_MESSAGES",

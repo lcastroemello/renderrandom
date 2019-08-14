@@ -1,27 +1,46 @@
 import React, { useState, useEffect } from "react";
 import axios from "./axios";
+import Comments from "./comments";
 
 export default function Episode(props) {
     const [episodeData, setEpisodeData] = useState();
-
+    const { id } = props.match.params;
     useEffect(() => {
-        const { id } = props.match.params;
         (async () => {
             const { data } = await axios.get("/episode/" + id + ".json");
             setEpisodeData(data);
         })();
+        props.mounts();
     }, []);
 
     return (
         <div>
             {episodeData && (
-                <div>
-                    <h1> Welcome to episode {episodeData.title} </h1>
-                    <img src={episodeData.picture} />
-                    <p>Duration: {episodeData.duration}</p>
-                    <h2>What to expect from this episode?</h2>
-                    <p>{episodeData.description}</p>
-                    <audio controls src={episodeData.audio} />
+                <div className="eachepisodepage">
+                    <h1 className="eachepisodetitle">
+                        Welcome to episode {episodeData.title}
+                    </h1>
+                    <img className="episodepic" src={episodeData.picture} />
+
+                    <div className="description">
+                        <h3>What to expect from this episode?</h3>
+                        <br />
+                        <p className="duration">
+                            Duration: {episodeData.duration}
+                        </p>
+                        <br />
+                        <p>{episodeData.description}</p>
+                    </div>
+                    <div className="playerwrapper">
+                        <audio
+                            className="player"
+                            controls
+                            src={episodeData.audio}
+                        />
+                    </div>
+                    <div className="commentsection">
+                        <Comments episodeId={id} />
+                    </div>
                 </div>
             )}
         </div>

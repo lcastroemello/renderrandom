@@ -1,4 +1,4 @@
-import { chatMessages, newChatMessage } from "./actions";
+import { getComments, newComment } from "./actions";
 import * as io from "socket.io-client";
 
 export let socket;
@@ -6,8 +6,10 @@ export let socket;
 export const init = store => {
     if (!socket) {
         socket = io.connect();
-        socket.on("chatMessages", msgs => store.dispatch(chatMessages(msgs)));
+        socket.on("getComments", comments =>
+            store.dispatch(getComments(comments))
+        );
 
-        socket.on("newChatMessage", msg => store.dispatch(newChatMessage(msg)));
+        socket.on("newComment", comment => store.dispatch(newComment(comment)));
     }
 };

@@ -20,7 +20,8 @@ export default class App extends React.Component {
             uploaderIsVisible: false,
             playerIsVisible: false,
             bio: "",
-            adminMode: false
+            adminMode: false,
+            episodepage: false
         };
         this.editprofile = this.editprofile.bind(this);
     } //end of constructor
@@ -54,7 +55,7 @@ export default class App extends React.Component {
                                 <span className="char5">E</span>
                                 <span className="char6">R</span>
                             </h1>
-                            <img className="char8" src="music-player.png" />
+                            <img className="char8" src="/music-player.png" />
                             <h1 id="random">
                                 <span className="char10">R</span>
                                 <span className="char11">A</span>
@@ -161,17 +162,14 @@ export default class App extends React.Component {
                                 </div>
                             )}
                         />
+                        <div className="secondquadrant" />
+                        {!this.state.episodepage && (
+                            <div className="searchcomponent">
+                                <Search />
+                            </div>
+                        )}
 
-                        <div className="secondquadrant">
-                            <Route
-                                path="/search"
-                                render={props => (
-                                    <div>
-                                        <Search />
-                                    </div>
-                                )}
-                            />
-                        </div>
+                        <div className="fourthquadrant" />
 
                         <div className="thirdquadrant">
                             <Route
@@ -193,17 +191,7 @@ export default class App extends React.Component {
                                 )}
                             />
                         </div>
-
-                        <div className="fourthquadrant">
-                            <Route
-                                path="/chat"
-                                render={props => (
-                                    <div>
-                                        <Chat />
-                                    </div>
-                                )}
-                            />
-
+                        <div className="episodepage">
                             <Route
                                 path="/episode/:id"
                                 render={props => (
@@ -213,6 +201,11 @@ export default class App extends React.Component {
                                             match={props.match}
                                             history={props.history}
                                             userId={this.state.id}
+                                            mounts={() =>
+                                                this.setState({
+                                                    episodepage: true
+                                                })
+                                            }
                                         />
                                     </div>
                                 )}
