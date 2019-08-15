@@ -63,6 +63,7 @@ export default class App extends React.Component {
                         id="vinyl"
                         className={this.state.playing ? "spin" : ""}
                     />
+
                     <div className="circlecontainer">
                         <div className="maincircle">
                             <h1 id="render">
@@ -82,10 +83,6 @@ export default class App extends React.Component {
                                 <span className="char14">O</span>
                                 <span className="char15">M</span>
                             </h1>
-
-                            <a className="logout" id="nav-link" href="/logout">
-                                Log out
-                            </a>
                         </div>
                     </div>
                     <div className="podcastwrapper">
@@ -230,6 +227,16 @@ export default class App extends React.Component {
                                     </div>
                                 )}
                             />
+                        </div>
+                        <div className="logoutwrapper">
+                            <a className="logout" id="nav-link" href="/logout">
+                                | Log out |
+                            </a>
+                            {this.state.episodepage && (
+                                <Link className="logout" to="/">
+                                    | Back to user page |
+                                </Link>
+                            )}
                         </div>
                     </div>
                 </React.Fragment>

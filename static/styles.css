@@ -6,17 +6,17 @@
 h1 {
     font-size: 2rem;
     color: #e2bc37;
-    font-family: monospace;
+    font-family: "Ubuntu", sans-serif;
 }
 
 h2 {
-    font-family: monospace;
-    font-size: 1.5rem;
+    font-family: "Ubuntu", sans-serif;
+    font-size: 1rem;
     color: #e2bc37;
 }
 
 h3 {
-    font-size: 1.8rem;
+    font-size: 1.2rem;
     color: #e2bc37;
 }
 
@@ -25,9 +25,9 @@ button {
 }
 
 p {
-    font-family: monospace;
-    font-size: 1.2rem;
-    color: black;
+    font-family: "Ubuntu", sans-serif;
+    font-size: 0.8rem;
+    color: #e2bc37;
 }
 
 input {
@@ -52,9 +52,9 @@ input {
     border: 8px double #e2bc37;
     padding: 10px;
     background-clip: content-box;
-    width: 38rem;
-    height: 38rem;
-    z-index: 200;
+    width: 35rem;
+    height: 35rem;
+    z-index: 3;
 }
 
 #render span {
@@ -67,9 +67,9 @@ input {
     transform-origin: bottom center;
     display: flex;
     justify-content: center;
-    right: 48%;
+    right: 46%;
     z-index: 11;
-    /* top: 10%; */
+    top: 14%;
 }
 
 #random span {
@@ -82,9 +82,9 @@ input {
     transform-origin: bottom center;
     display: flex;
     justify-content: center;
-    right: 50%;
+    right: 51%;
     z-index: 10;
-    /* top: 10%; */
+    top: 14%;
 }
 
 .char1 {
@@ -140,15 +140,25 @@ input {
     justify-self: right;
 }
 
-.logout {
-    grid-column: 2/3;
-    grid-row: 2/3;
+.logoutwrapper {
+    grid-column: 2/4;
+    grid-row: 3/4;
     display: flex;
     align-items: flex-end;
-    heigth: 100px;
+    justify-content: center;
+}
+
+.logout {
+    display: flex;
+    align-items: flex-end;
+    heigth: 2rem;
     text-align: center;
-    z-index: 500;
-    padding: 2rem;
+    z-index: 100;
+    padding: 0.5rem;
+    position: relative;
+    text-decoration: none;
+    color: #e2bc37;
+    font-size: 1rem;
 }
 /* ----------------------------------Welcome page */
 
@@ -159,11 +169,11 @@ input {
     background-position: center;
     background-repeat: no-repeat;
     height: 200%;
-    width: 100%;
+    width: 110%;
     overflow: hidden;
     z-index: 0;
     bottom: -50%;
-    /* left: -5%; */
+    left: -5%;
 }
 
 .spin {
@@ -263,41 +273,41 @@ input {
     justify-self: center;
     height: 100vh;
     width: 100vw;
-    z-index: 1;
-    /* overflow: hidden; */
+    z-index: 7;
+    overflow: hidden;
 }
 
 .firstquadrant {
-    z-index: 20;
+    z-index: 5;
     /* background: rgba(226, 188, 55, 0.3); */
-    grid-column: 1/3;
+    grid-column: 1/2;
     grid-row: 1/3;
 }
-.secondquadrant {
-    z-index: 30;
-    /* background: rgba(94, 7, 4, 0.3); */
+/* .secondquadrant {
+    z-index: 5;
+    background: rgba(94, 7, 4, 0.3);
     grid-column: 3/5;
     grid-row: 1/3;
-}
+} */
 .thirdquadrant {
-    z-index: 30;
+    z-index: 3;
     /* background: rgba(94, 7, 4, 0.3); */
     /* background: rgba(255, 255, 255, 0.1); */
     grid-column: 1/3;
     grid-row: 3/5;
 }
-.fourthquadrant {
-    z-index: 30;
-    /* background: rgba(226, 188, 55, 0.3); */
+/* .fourthquadrant {
+    z-index: 5;
+    background: rgba(226, 188, 55, 0.3);
     grid-column: 3/5;
     grid-row: 3/5;
-}
+} */
 
 .searchcomponent {
     grid-column: 4/5;
     grid-row: 1/5;
-    z-index: 40;
     align-content: flex-end;
+    z-index: 5;
 }
 
 /* ----------------------------------------------------USER PROFILE */
@@ -308,14 +318,15 @@ input {
     grid-template-columns: 0.1fr 1fr;
     align-self: center;
     justify-content: center;
-    z-index: 25;
+    z-index: 3;
     heigth: 100%;
-    width: 40rem;
+    /* width: 40rem; */
 }
 .profilepicinmyprofile {
     grid-column: 1/2;
     justify-self: center;
-    z-index: 45;
+    z-index: 4;
+    position: relative;
 }
 .textinmyprofile {
     place-self: center/start;
@@ -326,7 +337,7 @@ input {
 .uploader {
     grid-row: 1/3;
     grid-column: 1/2;
-    z-index: 100;
+    z-index: 11;
 }
 
 .profilepic {
@@ -356,12 +367,15 @@ input {
 
 .search {
     display: grid;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: 0.5 1.5fr;
     justify-items: center;
-    align-items: center;
+    align-items: flex-start;
     padding-bottom: 2rem;
+    padding-top: 2rem;
     text-align: center;
     height: 100vh;
+    z-index: 7rem;
+    position: relative;
 }
 
 .searchinput {
@@ -416,8 +430,8 @@ input {
     height: 100vh;
     width: 100vw;
     display: grid;
-    z-index: 200;
-    border-radius: 50%;
+    z-index: 150;
+    position: fixed;
 }
 
 .inner {
@@ -425,13 +439,14 @@ input {
     justify-self: center;
     align-self: center;
     background: #e2bc37;
-    heigth: 80vh;
-    width: 40vw;
+    heigth: 50vh;
+    width: 25vw;
     color: #5e0704;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     border-radius: 50%;
+    z-index: 1;
 }
 
 .uploaderpic {
@@ -446,6 +461,7 @@ input {
     font-size: 2rem;
     align-self: flex-end;
     padding-right: 1rem;
+    z-index: 10;
 }
 
 .textuploader {
@@ -530,12 +546,12 @@ input {
 /* ---------------------EPISODE PAGE----------------------- */
 
 .episodepage {
-    justify-self: center;
+    justify-content: center;
     height: 100vh;
     width: 100vw;
-    /* z-index: 300; */
     grid-column: 1/5;
     grid-row: 1/5;
+    z-index: 4;
 }
 
 .eachepisodepage {
@@ -544,17 +560,19 @@ input {
     grid-template-columns: 1fr 0.5fr 0.5fr 1fr;
     height: 100vh;
     width: 100vw;
-    justify-content: center;
+    justify-items: center;
     align-content: center;
-    padding: 3rem;
+    padding: 1rem;
 }
 
 .commentsection {
     grid-column: 4/5;
     grid-row: 1/5;
-    padding-left: 2rem;
+    padding-left: 5rem;
     align-self: center;
     width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 .commentdiv {
@@ -572,6 +590,8 @@ input {
 .commenttitle {
     grid-row: 1/2;
     padding: 0.5rem;
+    display: flex;
+    text-align: center;
 }
 .eachcomment {
     display: grid;
@@ -613,15 +633,18 @@ input {
     grid-row: 3/4;
     height: 5rem;
     background: transparent;
-    border: #5e0704 double 3px;
+    border: #e2bc37 double 3px;
 }
 .writeacomment::placeholder {
     color: #e2bc37;
     font-size: 1rem;
+    text-align: center;
 }
 
 .episodepic {
     border-radius: 30%;
+    width: 10rem;
+    height: 10rem;
     border: #5e0704 double 3px;
     object-fit: cover;
     grid-row: 2/3;
@@ -640,7 +663,6 @@ input {
     justify-items: center;
     text-align: center;
     border: #e2bc37;
-    z-index: 500;
 }
 
 .playerwrapper {
@@ -648,28 +670,35 @@ input {
     grid-column: 2/4;
     display: grid;
     grid-template-columns: 0.5fr 1fr 0.5fr;
-    z-index: 400;
+    z-index: 7;
 }
 
 .eachepisodetitle {
     grid-row: 1/2;
     grid-column: 1/2;
-    font-size: 6rem;
+    font-size: 2.5rem;
     padding: 2rem;
+    text-decoration: underline;
+    justify-content: center;
 }
 
 .episodeinfo {
     grid-row: 3/5;
     grid-column: 1/2;
     font-size: 1rem;
-    border: double 3px #e2bc37;
     padding: 2rem;
     margin: 2rem;
-    border-radius: 30%;
+    text-align: center;
+    justify-self: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 .description {
-    font-size: 1.3rem;
+    font-size: 0.9rem;
     color: #e2bc37;
+    text-align: center;
 }
 .infotitle {
     text-align: center;
@@ -679,8 +708,9 @@ input {
     font-size: 1rem;
     color: #e2bc37;
     height: 2rem;
-    width: 10rem;
+    width: 100%;
     display: flex;
+    text-align: center;
     justify-content: center;
     align-items: center;
     text-decoration: underline;

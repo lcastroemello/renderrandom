@@ -41,8 +41,8 @@ export default function Episode(props) {
                     </div>
                     <div className="playerwrapper">
                         <audio
-                            className="player"
                             controls
+                            className="player"
                             src={episodeData.audio}
                             onPlay={makespin}
                             onPause={makespin}

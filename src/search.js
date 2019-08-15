@@ -51,7 +51,7 @@ export default function Search() {
                                 <input onChange={e => setVal(e.target.value)} />
                             </div>
                             <p
-                                className="fakebutton"
+                                className="button"
                                 onClick={e => {
                                     setSearchName(false);
                                     setSearchTag(true);
@@ -90,7 +90,7 @@ export default function Search() {
                             <br />
                             <br />
                             <p
-                                className="fakebutton"
+                                className="button"
                                 onClick={e => {
                                     setSearchName(true);
                                     setSearchTag(false);
