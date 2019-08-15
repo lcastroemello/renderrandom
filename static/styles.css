@@ -161,10 +161,13 @@ input {
     height: 200%;
     width: 100%;
     overflow: hidden;
-    animation: spin 10s linear infinite;
     z-index: 0;
     bottom: -50%;
     /* left: -5%; */
+}
+
+.spin {
+    animation: spin 10s linear infinite;
 }
 
 @keyframes spin {

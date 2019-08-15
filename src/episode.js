@@ -6,6 +6,7 @@ export default function Episode(props) {
     const [episodeData, setEpisodeData] = useState();
     const { id } = props.match.params;
     useEffect(() => {
+        console.log("episode is mounting");
         (async () => {
             const { data } = await axios.get("/episode/" + id + ".json");
             setEpisodeData(data);
@@ -13,8 +14,9 @@ export default function Episode(props) {
         props.mounts();
     }, []);
 
-    const makespin = e => {
-        props.playing();
+    const makespin = () => {
+        console.log("makespin runs");
+        props.spinning();
     };
 
     return (
@@ -42,7 +44,8 @@ export default function Episode(props) {
                             className="player"
                             controls
                             src={episodeData.audio}
-                            onClick={makespin}
+                            onPlay={makespin}
+                            onPause={makespin}
                         />
                     </div>
                     <div className="commentsection">

@@ -7,7 +7,7 @@ import Login from "./login";
 export default function Welcome() {
     return (
         <HashRouter>
-            <div id="vinyl" animation={"spin 1s linear infinite"} />
+            <div id="vinyl" className="spin" />
             <div className="welcomePage">
                 <div className="circlecontainer">
                     <div className="maincircle">

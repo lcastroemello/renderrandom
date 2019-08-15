@@ -22,9 +22,10 @@ export default class App extends React.Component {
             bio: "",
             adminMode: false,
             episodepage: false,
-            playing: "off"
+            playing: ""
         };
         this.editprofile = this.editprofile.bind(this);
+        this.spin = this.spin.bind(this);
     } //end of constructor
     async componentDidMount() {
         const { data } = await axios.get("/user");
@@ -32,7 +33,8 @@ export default class App extends React.Component {
         if (this.state.id === 1) {
             this.setState({ adminMode: true });
         }
-        this.setState({ playing: "off" });
+        this.setState({ playing: false });
+        console.log("testing initial state app", this.state);
     }
 
     editprofile(newprofiledetails) {
@@ -41,10 +43,12 @@ export default class App extends React.Component {
     }
 
     spin() {
-        if (this.state.playing == "off") {
-            this.setState({ playing: "on" });
-        } else if (this.state.playing == "on") {
-            this.setState({ playing: "off" });
+        if (!this.state.playing) {
+            this.setState({ playing: true });
+            console.log("testing spin", this.state.playing);
+        } else if (this.state.playing) {
+            this.setState({ playing: false });
+            console.log("testing spin", this.state.playing);
         }
     }
 
@@ -55,6 +59,10 @@ export default class App extends React.Component {
         return (
             <BrowserRouter>
                 <React.Fragment>
+                    <div
+                        id="vinyl"
+                        className={this.state.playing ? "spin" : ""}
+                    />
                     <div className="circlecontainer">
                         <div className="maincircle">
                             <h1 id="render">
@@ -212,7 +220,7 @@ export default class App extends React.Component {
                                             match={props.match}
                                             history={props.history}
                                             userId={this.state.id}
-                                            playing={this.spin}
+                                            spinning={this.spin}
                                             mounts={() =>
                                                 this.setState({
                                                     episodepage: true
