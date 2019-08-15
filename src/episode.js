@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "./axios";
 import Comments from "./comments";
+import FriendButton from "./friendbutton";
 
 export default function Episode(props) {
     const [episodeData, setEpisodeData] = useState();
@@ -38,11 +39,14 @@ export default function Episode(props) {
                         </p>
                         <br />
                         <p className="description">{episodeData.description}</p>
+                        <FriendButton
+                            epId={props.match.params.id}
+                            userId={props.userId}
+                        />
                     </div>
                     <div className="playerwrapper">
                         <audio
                             controls
-                            className="player"
                             src={episodeData.audio}
                             onPlay={makespin}
                             onPause={makespin}

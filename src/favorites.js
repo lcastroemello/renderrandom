@@ -1,45 +1,37 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { receiveFriends, acceptRequest, endFriendship } from "./actions";
+import { receiveFavorites, removeFavorite } from "./actions";
 
 export default function Favorites() {
     const dispatch = useDispatch();
-    const friends = useSelector(
-        state =>
-            state.users && state.users.filter(user => user.accepted == true)
-    );
-    const wannabes = useSelector(
-        state =>
-            state.users && state.users.filter(user => user.accepted == false)
-    );
-
+    const favorites = useSelector(state => state.favorites);
+    console.log("testing favorites", favorites);
     useEffect(() => {
-        dispatch(receiveFriends());
+        dispatch(receiveFavorites());
     }, []);
 
     return (
         <div className="favorites">
             <h1>My favorite episodes</h1>
-            {friends &&
-                friends.map(friends => {
+            {favorites &&
+                favorites.map(favorites => {
                     return (
-                        <div key={friends.id}>
+                        <div key={favorites.id}>
                             <img
                                 style={{
                                     objectFit: "cover",
-                                    height: "8rem",
-                                    width: "8rem"
+                                    height: "4rem",
+                                    width: "4rem"
                                 }}
-                                src={friends.picture}
+                                src={favorites.picture}
                             />
-                            <h2>
-                                {friends.first} {friends.last}
-                            </h2>
+                            <h2>{favorites.title}</h2>
+                            <p>{favorites.summary}</p>
                             <p
                                 className="fakebutton"
-                                onClick={e =>
-                                    dispatch(endFriendship(friends.id))
+                                onClick={() =>
+                                    dispatch(removeFavorite(favorites.id))
                                 }
                             >
                                 Remove this episode from your favorites

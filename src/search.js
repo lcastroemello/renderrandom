@@ -41,15 +41,16 @@ export default function Search() {
 
     return (
         <div className="search">
-            <div className="searchbar">
-                <div>
+            <div>
+                <div className="searchwrapper">
                     {searchName && (
-                        <div>
-                            <h1>Find episode by name</h1>
-                            <br />
+                        <div className="searchbar">
                             <div className="searchinput">
                                 <input onChange={e => setVal(e.target.value)} />
                             </div>
+                            <br />
+                            <h1>Find episode by name</h1>
+                            <br />
                             <p
                                 className="button"
                                 onClick={e => {
@@ -57,15 +58,13 @@ export default function Search() {
                                     setSearchTag(true);
                                 }}
                             >
-                                Search by tag instead
+                                | Search by tag instead |
                             </p>
                         </div>
                     )}
 
                     {searchTag && (
-                        <div>
-                            <h1> Find episode by tag: </h1>
-                            <br />
+                        <div className="searchbar">
                             <select
                                 id="tag"
                                 name="tag"
@@ -88,15 +87,16 @@ export default function Search() {
                                 <option value="Society">Society</option>
                             </select>
                             <br />
+                            <h1> Find episode by tag: </h1>
                             <br />
                             <p
-                                className="button"
+                                className="button othersearch"
                                 onClick={e => {
                                     setSearchName(true);
                                     setSearchTag(false);
                                 }}
                             >
-                                Search by name instead
+                                | Search by name instead |
                             </p>
                         </div>
                     )}
@@ -121,9 +121,9 @@ export default function Search() {
                                                 className="resultspic"
                                             />
                                         </Link>
-                                        <h2 className="resultstitle">
+                                        <h3 className="resultstitle">
                                             {episodes.title}
-                                        </h2>
+                                        </h3>
                                         <h2 className="resultssummary">
                                             {episodes.summary}
                                         </h2>

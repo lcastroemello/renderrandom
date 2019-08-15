@@ -7,67 +7,36 @@ export default function FriendButton(props) {
     useEffect(() => {
         console.log("testing props", props);
         (async () => {
-            const { data } = await axios.get("/getbutton/" + props.broId);
+            const { data } = await axios.get("/getbutton/" + props.epId);
             console.log("this is data", data);
             if (!data[0]) {
-                setButton("Add this branch to your tree!");
-            } else if (
-                data[0].accepted == false &&
-                props.userId == data[0].receiver_id
-            ) {
-                console.log("accept");
-                setButton("Accept friendship request");
-            } else if (
-                data[0].accepted == false &&
-                props.userId == data[0].sender_id
-            ) {
-                console.log("cancel");
-                setButton("Cancel friendship request");
-            } else if (data[0].accepted == true) {
-                setButton("Prune this branch from your tree");
+                setButton("Add this episode to your favorites!");
+            } else {
+                setButton("Remove this episode from your favorites");
             }
         })();
     }, []);
     function submit() {
-        if (button == "Add this branch to your tree!") {
+        if (button == "Add this episode to your favorites!") {
             (async () => {
                 const { data } = await axios.post(
-                    "/getbutton/add/" + props.broId
+                    "/getbutton/add/" + props.epId
                 );
-                console.log("add friend worked", data[0].accepted);
-                setButton("Cancel friendship request");
+                console.log("add favorite worked", data[0]);
+                setButton("Remove this episode from your favorites");
             })();
-        } else if (button == "Cancel friendship request") {
+        } else if (button == "Remove this episode from your favorites") {
             (async () => {
                 const deleted = await axios.post(
-                    "/getbutton/delete/" + props.broId
+                    "/getbutton/delete/" + props.epId
                 );
-                console.log("delete friend request worked", deleted);
-                setButton("Add this branch to your tree!");
-            })();
-        } else if (button == "Accept friendship request") {
-            (async () => {
-                const accept = await axios.post(
-                    "/getbutton/accept/" + props.broId
-                );
-                console.log("accept friend request worked", accept);
-                setButton("Prune this branch from your tree");
-            })();
-        } else if (button == "Prune this branch from your tree") {
-            (async () => {
-                const deleted = await axios.post(
-                    "/getbutton/delete/" + props.broId
-                );
-                console.log("delete friend request worked", deleted);
-                setButton("Add this branch to your tree!");
+                console.log("remove favorite worked", deleted);
+                setButton("Add this episode to your favorites!");
             })();
         }
     }
     return (
-        <button
-            onClick={submit}
-            style={{ fontSize: "1rem", background: "#67912D" }}
-        >
+        <button onClick={submit} className="button">
             {button}
         </button>
     );

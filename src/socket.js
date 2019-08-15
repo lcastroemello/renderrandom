@@ -10,6 +10,8 @@ export const init = store => {
             store.dispatch(getComments(comments))
         );
 
-        socket.on("newComment", comment => store.dispatch(newComment(comment)));
+        socket.on("newComment", (comment, episode_id) =>
+            store.dispatch(newComment(comment, episode_id))
+        );
     }
 };

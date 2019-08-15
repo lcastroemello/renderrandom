@@ -1,11 +1,10 @@
 import axios from "./axios";
 
-export async function receiveFriends() {
-    console.log("actions");
-    const { data } = await axios.get("/friends.json");
+export async function receiveFavorites() {
+    const { data } = await axios.get("/favorites.json");
     return {
-        type: "RECEIVE_FRIENDS",
-        users: data.rows
+        type: "RECEIVE_FAVORITES",
+        favorites: data.rows
     };
 }
 
@@ -18,11 +17,11 @@ export async function acceptRequest(id) {
     };
 }
 
-export async function endFriendship(id) {
+export async function removeFavorite(id) {
     const deleted = await axios.post("getbutton/delete/" + id);
-    console.log("delete friend request worked", deleted);
+    console.log("remove favorite request worked", deleted);
     return {
-        type: "END_FRIENDSHIP",
+        type: "REMOVE_FAVORITE",
         id
     };
 }
@@ -50,10 +49,11 @@ export function getComments(comments) {
     };
 }
 
-export function newComment(comment) {
+export function newComment(comment, episode_id) {
     return {
         type: "POST_NEW_COMMENT",
-        comment
+        comment,
+        episode_id
     };
 }
 

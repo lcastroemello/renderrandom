@@ -307,7 +307,7 @@ app.get("/episodes.json", async function(req, res) {
         episodeList.rows.forEach(i => {
             i.created_at = moment(i.created_at, moment.ISO_8601).fromNow();
         });
-        console.log("testing first episodes", episodeList);
+
         res.json(episodeList.rows);
     } catch (err) {
         console.log("err in get render find episode", err);
@@ -341,17 +341,19 @@ app.get("/episodes/3/:val.json", async function(req, res) {
 
 //-------------------------FRIENDSHIP BUTTON------------------------------------
 
-// app.get("/getbutton/:broId", async function(req, res) {
-//     try {
-//         const getButton = await db.getFriendshipStatus(
-//             req.session.userId,
-//             req.params.broId
-//         );
-//         res.json(getButton.rows);
-//     } catch (err) {
-//         console.log("err in get getbutton", err);
-//     }
-// });
+app.get("/getbutton/:epId", async function(req, res) {
+    try {
+        console.log(req.params.epId);
+        const getButton = await db.getFavoritesStatus(
+            req.session.userId,
+            req.params.epId
+        );
+        res.json(getButton.rows);
+        console.log("testing get button", getButton);
+    } catch (err) {
+        console.log("err in get getbutton", err);
+    }
+});
 
 app.post("/getbutton/add/:broId", async function(req, res) {
     try {
@@ -365,12 +367,13 @@ app.post("/getbutton/add/:broId", async function(req, res) {
     }
 });
 
-app.post("/getbutton/delete/:broId", async function(req, res) {
+app.post("/getbutton/delete/:epId", async function(req, res) {
     try {
-        const deleteFriendship = await db.deleteFriendship(
-            req.params.broId,
+        const removeFav = await db.removeFavorite(
+            req.params.epId,
             req.session.userId
         );
+        console.log("delete worked");
         res.json({ success: true });
     } catch (err) {
         console.log("err in post delete getbutton", err);
@@ -389,16 +392,16 @@ app.post("/getbutton/accept/:broId", async function(req, res) {
     }
 });
 
-//-----------------------FRIENDS PAGE----------------
-// app.get("/friends.json", function(req, res) {
-//     try {
-//         db.getListOfUsers(req.session.userId).then(list => {
-//             res.json(list);
-//         });
-//     } catch (err) {
-//         console.log("err in get friendsList", err);
-//     }
-// });
+//-----------------------FAVORITES PAGE----------------
+app.get("/favorites.json", function(req, res) {
+    try {
+        db.getListOfFavorites(req.session.userId).then(list => {
+            res.json(list);
+        });
+    } catch (err) {
+        console.log("err in get favorites", err);
+    }
+});
 // -----------------------RENDERING WELCOME (KEEP IT IN THE END)-----------------
 
 app.get("*", function(req, res) {
@@ -424,7 +427,6 @@ io.on("connection", socket => {
         return socket.disconnect(true);
     }
     const userId = socket.request.session.userId;
-    const parent_id = socket.request.session.episodeId || null;
 
     // CHAT - getting the last 10 chatMessages
     socket.on("getComments", async episodeId => {
@@ -440,14 +442,9 @@ io.on("connection", socket => {
         }
     });
 
-    socket.on("newComment", async (comment, episodeId) => {
+    socket.on("newComment", async (comment, episode_id) => {
         try {
-            let commentInfo = await db.addComment(
-                userId,
-                episodeId,
-                comment,
-                parent_id
-            );
+            let commentInfo = await db.addComment(userId, episode_id, comment);
             await db.getUserById(userId);
             let timetag = moment(
                 commentInfo.rows[0].created_at,

@@ -13,3 +13,11 @@
         </div>
     );
 }
+
+{
+    !this.state.adminMode && (
+        <div>
+            <Favorites />
+        </div>
+    );
+}

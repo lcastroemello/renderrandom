@@ -48,7 +48,7 @@ export default class BioEditor extends React.Component {
 
                         <h3>Tell us about yourself!</h3>
                         <textarea
-                            style={{ height: "10rem", width: "20rem" }}
+                            style={{ height: "3rem", width: "20rem" }}
                             onChange={({ target }) => {
                                 this.setState({ draft: target.value });
                             }}
@@ -62,8 +62,8 @@ export default class BioEditor extends React.Component {
                     <div>
                         <div>
                             {this.props.bio && (
-                                <p>
-                                    {this.props.bio} <br />
+                                <p className="biotext">
+                                    &quot;{this.props.bio}&quot; <br />
                                 </p>
                             )}
                             <br />

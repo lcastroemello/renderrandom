@@ -1,8 +1,8 @@
 export default function(state = {}, action) {
-    if (action.type == "RECEIVE_FRIENDS") {
+    if (action.type == "RECEIVE_FAVORITES") {
         state = {
             ...state,
-            users: action.users
+            favorites: action.favorites
         };
     }
     if (action.type == "ACCEPT_REQUEST") {
@@ -19,15 +19,15 @@ export default function(state = {}, action) {
             })
         };
     }
-    if (action.type == "END_FRIENDSHIP") {
+    if (action.type == "REMOVE_FAVORITE") {
         state = {
             ...state,
-            users: state.users.map(user => {
-                if (user.id != action.id) {
-                    return user;
+            favorites: state.favorites.map(favorite => {
+                if (favorite.id != action.id) {
+                    return favorite;
                 }
                 return {
-                    user: null
+                    favorite: null
                 };
             })
         };

@@ -70,17 +70,14 @@ exports.getEpisodesInSearch = function getEpisodesInSearch(val) {
     );
 };
 
-//--------------------GETTING INFO from frienships---------------------
+//--------------------GETTING INFO from favorites---------------------
 
-// exports.getFriendshipStatus = function getFriendshipStatus(
-//     sender_id,
-//     receiver_id
-// ) {
-//     return db.query(
-//         "SELECT * FROM friendships WHERE (sender_id =$1 AND receiver_id=$2) OR (sender_id=$2 AND receiver_id=$1)",
-//         [sender_id, receiver_id]
-//     );
-// };
+exports.getFavoritesStatus = function getFavoritesStatus(user_id, episode_id) {
+    return db.query(
+        "SELECT * FROM favorites WHERE (user_id =$1 AND episode_id=$2)",
+        [user_id, episode_id]
+    );
+};
 
 //-----------------ADDING INFO to friendships-------------------------
 
@@ -91,12 +88,12 @@ exports.getEpisodesInSearch = function getEpisodesInSearch(val) {
 //     );
 // };
 
-// exports.deleteFriendship = function deleteFriendship(sender_id, receiver_id) {
-//     return db.query(
-//         "DELETE FROM friendships WHERE sender_id = $1 AND receiver_id = $2",
-//         [sender_id, receiver_id]
-//     );
-// };
+exports.removeFavorite = function removeFavorite(episode_id, user_id) {
+    return db.query(
+        "DELETE FROM favorites WHERE user_id = $2 AND episode_id = $1",
+        [episode_id, user_id]
+    );
+};
 
 // exports.acceptFriendship = function acceptFriendship(sender_id, receiver_id) {
 //     return db.query(
@@ -107,10 +104,10 @@ exports.getEpisodesInSearch = function getEpisodesInSearch(val) {
 
 //-----------------ADDING INFO comments-----------------------------
 
-exports.addComment = function addComment(userId, episode, comment, parent_id) {
+exports.addComment = function addComment(userId, episode, comment) {
     return db.query(
-        "INSERT INTO comments (user_id, episode, comment, parent_id) VALUES ($1, $2, $3, $4) RETURNING id, comment, created_at",
-        [userId, episode, comment, parent_id]
+        "INSERT INTO comments (user_id, episode, comment) VALUES ($1, $2, $3) RETURNING id, comment, created_at",
+        [userId, episode, comment]
     );
 };
 
@@ -166,12 +163,12 @@ exports.getEpisodeById = function getEpisodeById(episode_id) {
 
 //--------------------GETTING INFO multiple tables--------------------
 
-// exports.getListOfUsers = function getListOfUsers(id) {
-//     return db.query(
-//         "SELECT users.id, first, last, picture, accepted FROM friendships JOIN users ON (accepted = false AND receiver_id =$1 AND sender_id = users.id) OR (accepted = true AND receiver_id = $1 AND sender_id = users.id) OR (accepted = true AND sender_id = $1 AND receiver_id = users.id)",
-//         [id]
-//     );
-// };
+exports.getListOfFavorites = function getListOfFavorites(id) {
+    return db.query(
+        "SELECT episodes.id, title, summary, picture FROM favorites JOIN episodes ON episode_id=episodes.id WHERE user_id=$1",
+        [id]
+    );
+};
 
 exports.getEpisodesByTag = function getEpisodesByTag(tagname) {
     return db.query(
@@ -189,7 +186,7 @@ exports.getEpisodesInSearch = function getEpisodesInSearch(val) {
 
 exports.getComments = function getComments(episodeId) {
     return db.query(
-        "SELECT comments.id, user_id, comment, parent_id, comments.created_at, first, last, picture FROM comments JOIN users ON users.id = user_id  WHERE episode =$1 ORDER BY comments.id DESC",
+        "SELECT comments.id, user_id, displayname, comment, parent_id, comments.created_at, first, last, picture FROM comments JOIN users ON users.id = user_id  WHERE episode =$1 ORDER BY comments.id DESC",
         [episodeId]
     );
 };

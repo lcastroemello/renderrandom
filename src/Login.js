@@ -80,7 +80,11 @@ export default class Login extends React.Component {
                 </button>
                 <br />
                 <p className="linkother">
-                    Not yet a member? <Link to="/"> Register! </Link>
+                    Not yet a member?{" "}
+                    <Link className="button" to="/">
+                        {" "}
+                        Register!{" "}
+                    </Link>
                 </p>
             </div>
         );

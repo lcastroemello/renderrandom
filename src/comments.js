@@ -43,8 +43,7 @@ export default function Comments(props) {
                                         src={comments.picture}
                                     />
                                     <p className="commentername">
-                                        {comments.first}
-                                        {comments.last}
+                                        {comments.displayname}
                                     </p>
                                     <p className="commenttext">
                                         {comments.comment}

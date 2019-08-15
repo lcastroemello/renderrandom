@@ -64,7 +64,7 @@ export default class App extends React.Component {
                         className={this.state.playing ? "spin" : ""}
                     />
 
-                    <div className="circlecontainer">
+                    <div className="circlecontainer containershade">
                         <div className="maincircle">
                             <h1 id="render">
                                 <span className="char1">R</span>

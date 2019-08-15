@@ -55,7 +55,7 @@ export default class ProfileEditor extends React.Component {
         return (
             <div>
                 {this.state.editing && (
-                    <div>
+                    <div className="profileeditor">
                         <p
                             className="closetag"
                             onClick={() => this.setState({ editing: false })}
@@ -63,39 +63,33 @@ export default class ProfileEditor extends React.Component {
                             X
                         </p>
                         <h3>Edit your profile</h3>
-                        Username / Display Name__
+                        <br />
+                        Username{""}
                         <input
                             name="displaynamedraft"
                             placeholder={this.props.displayname}
                             onChange={e => this.handleChange(e)}
-                            style={{
-                                border: "none"
-                            }}
                         />
-                        <br />
-                        First Name__
+                        First Name{""}
                         <input
                             name="firstdraft"
                             placeholder={this.props.first}
                             onChange={e => this.handleChange(e)}
                         />
-                        <br />
-                        Last Name__
+                        Last Name{""}
                         <input
                             name="lastdraft"
                             placeholder={this.props.last}
                             onChange={e => this.handleChange(e)}
                         />
-                        <br />
-                        Password__
+                        Password{""}
                         <input
                             name="pass"
                             type="password"
                             placeholder="new password"
                             onChange={e => this.handleChange(e)}
                         />
-                        <br />
-                        Confirm Password__
+                        Confirm Password{""}
                         <input
                             name="confpass"
                             type="password"
@@ -106,7 +100,6 @@ export default class ProfileEditor extends React.Component {
                         <br />
                         <button
                             className="button"
-                            style={{ border: "none" }}
                             onClick={e => this.submit(e)}
                         >
                             Submit changes
