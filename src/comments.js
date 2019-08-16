@@ -8,7 +8,11 @@ export default function Comments(props) {
         if (e.key === "Enter") {
             e.preventDefault();
             console.log("enter was pressed", e.target.value);
-            socket.emit("newComment", (e.target.value, props.episodeId));
+            let comment = {
+                comment: e.target.value,
+                episodeId: props.episodeId
+            };
+            socket.emit("newComment", comment);
             e.target.value = "";
         }
     };
@@ -32,11 +36,11 @@ export default function Comments(props) {
                 on the next episodes? <br />
             </h1>
 
-            <div ref={elemRef}>
+            <div className="commentarea" ref={elemRef}>
                 {comments &&
                     comments.map(comments => {
                         return (
-                            <div className="commentarea" key={comments.id}>
+                            <div key={comments.id}>
                                 <div className="eachcomment">
                                     <img
                                         className="commenterpic"

@@ -22,13 +22,10 @@ export default function(state = {}, action) {
     if (action.type == "REMOVE_FAVORITE") {
         state = {
             ...state,
-            favorites: state.favorites.map(favorite => {
+            favorites: state.favorites.filter(favorite => {
                 if (favorite.id != action.id) {
                     return favorite;
                 }
-                return {
-                    favorite: null
-                };
             })
         };
     }

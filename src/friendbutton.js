@@ -5,7 +5,6 @@ export default function FriendButton(props) {
     const [button, setButton] = useState("sorry");
 
     useEffect(() => {
-        console.log("testing props", props);
         (async () => {
             const { data } = await axios.get("/getbutton/" + props.epId);
             console.log("this is data", data);
@@ -17,6 +16,7 @@ export default function FriendButton(props) {
         })();
     }, []);
     function submit() {
+        console.log("testing props", props);
         if (button == "Add this episode to your favorites!") {
             (async () => {
                 const { data } = await axios.post(

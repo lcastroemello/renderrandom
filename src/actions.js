@@ -49,11 +49,10 @@ export function getComments(comments) {
     };
 }
 
-export function newComment(comment, episode_id) {
+export function newComment(comment) {
     return {
         type: "POST_NEW_COMMENT",
-        comment,
-        episode_id
+        comment
     };
 }
 

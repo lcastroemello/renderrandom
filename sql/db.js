@@ -81,12 +81,12 @@ exports.getFavoritesStatus = function getFavoritesStatus(user_id, episode_id) {
 
 //-----------------ADDING INFO to friendships-------------------------
 
-// exports.addFriendship = function addFriendship(sender_id, receiver_id) {
-//     return db.query(
-//         "INSERT INTO friendships (sender_id, receiver_id) VALUES ($1, $2) RETURNING accepted",
-//         [sender_id, receiver_id]
-//     );
-// };
+exports.addFavorite = function addFavorite(user_id, episode_id) {
+    return db.query(
+        "INSERT INTO favorites (user_id, episode_id) VALUES ($1, $2)",
+        [user_id, episode_id]
+    );
+};
 
 exports.removeFavorite = function removeFavorite(episode_id, user_id) {
     return db.query(

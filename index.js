@@ -11,7 +11,9 @@ const s3multiple = require("./s3multiple");
 var moment = require("moment");
 const config = require("./config");
 const server = require("http").Server(app);
-const io = require("socket.io")(server, { origins: "localhost:8080" });
+const io = require("socket.io")(server, {
+    origins: "localhost:8080 192.168.50.*:*"
+});
 const cookieSessionMiddleware = cookieSession({
     secret: "its gonna be ok",
     maxAge: 1000 * 60 * 60 * 24 * 14
@@ -343,25 +345,24 @@ app.get("/episodes/3/:val.json", async function(req, res) {
 
 app.get("/getbutton/:epId", async function(req, res) {
     try {
-        console.log(req.params.epId);
         const getButton = await db.getFavoritesStatus(
             req.session.userId,
             req.params.epId
         );
         res.json(getButton.rows);
-        console.log("testing get button", getButton);
     } catch (err) {
         console.log("err in get getbutton", err);
     }
 });
 
-app.post("/getbutton/add/:broId", async function(req, res) {
+app.post("/getbutton/add/:epId", async function(req, res) {
     try {
-        const addFriendship = await db.addFriendship(
+        console.log("testing params in add", req.params.epId);
+        const addFav = await db.addFavorite(
             req.session.userId,
-            req.params.broId
+            req.params.epId
         );
-        res.json(addFriendship.rows);
+        res.json(addFav.rows);
     } catch (err) {
         console.log("err in post add getbutton", err);
     }
@@ -435,17 +436,22 @@ io.on("connection", socket => {
             comments.rows.forEach(i => {
                 i.created_at = moment(i.created_at, moment.ISO_8601).fromNow();
             });
-            console.log("testing first comments", comments);
+
             io.emit("getComments", comments.rows);
         } catch (err) {
             console.log("err in get last comments", err);
         }
     });
 
-    socket.on("newComment", async (comment, episode_id) => {
+    socket.on("newComment", async comment => {
         try {
-            let commentInfo = await db.addComment(userId, episode_id, comment);
-            await db.getUserById(userId);
+            console.log("comments in episode id", comment);
+            let commentInfo = await db.addComment(
+                userId,
+                comment.episodeId,
+                comment.comment
+            );
+            let userInfo = await db.getUserById(userId);
             let timetag = moment(
                 commentInfo.rows[0].created_at,
                 moment.ISO_8601
@@ -454,7 +460,7 @@ io.on("connection", socket => {
                 ...commentInfo.rows[0],
                 created_at: timetag
             };
-            const fullInfo = { ...commentInfo.rows[0], ...commentInfo.rows[0] };
+            const fullInfo = { ...commentInfo.rows[0], ...userInfo.rows[0] };
             io.emit("newComment", fullInfo);
         } catch (err) {
             console.log("err in add comment", err);

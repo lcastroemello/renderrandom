@@ -7,12 +7,12 @@ export default function Episode(props) {
     const [episodeData, setEpisodeData] = useState();
     const { id } = props.match.params;
     useEffect(() => {
+        props.mounts();
         console.log("episode is mounting");
         (async () => {
             const { data } = await axios.get("/episode/" + id + ".json");
             setEpisodeData(data);
         })();
-        props.mounts();
     }, []);
 
     const makespin = () => {

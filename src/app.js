@@ -185,28 +185,28 @@ export default class App extends React.Component {
                             </div>
                         )}
 
-                        <div className="fourthquadrant" />
-
-                        <div className="thirdquadrant">
-                            <Route
-                                exact
-                                path="/"
-                                render={props => (
-                                    <div>
-                                        {this.state.adminMode && (
-                                            <div>
-                                                <Admin />
-                                            </div>
-                                        )}
-                                        {!this.state.adminMode && (
-                                            <div>
-                                                <Favorites />
-                                            </div>
-                                        )}
-                                    </div>
-                                )}
-                            />
-                        </div>
+                        {!this.state.episodepage && (
+                            <div className="thirdquadrant">
+                                <Route
+                                    exact
+                                    path="/"
+                                    render={props => (
+                                        <div>
+                                            {this.state.adminMode && (
+                                                <div>
+                                                    <Admin />
+                                                </div>
+                                            )}
+                                            {!this.state.adminMode && (
+                                                <div>
+                                                    <Favorites />
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+                                />
+                            </div>
+                        )}
                         <div className="episodepage">
                             <Route
                                 path="/episode/:id"

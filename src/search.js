@@ -52,7 +52,7 @@ export default function Search() {
                             <h1>Find episode by name</h1>
                             <br />
                             <p
-                                className="button"
+                                className="button othersearch"
                                 onClick={e => {
                                     setSearchName(false);
                                     setSearchTag(true);

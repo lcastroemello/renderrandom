@@ -14,31 +14,33 @@ export default function Favorites() {
     return (
         <div className="favorites">
             <h1>My favorite episodes</h1>
-            {favorites &&
-                favorites.map(favorites => {
-                    return (
-                        <div key={favorites.id}>
-                            <img
-                                style={{
-                                    objectFit: "cover",
-                                    height: "4rem",
-                                    width: "4rem"
-                                }}
-                                src={favorites.picture}
-                            />
-                            <h2>{favorites.title}</h2>
-                            <p>{favorites.summary}</p>
-                            <p
-                                className="fakebutton"
-                                onClick={() =>
-                                    dispatch(removeFavorite(favorites.id))
-                                }
-                            >
-                                Remove this episode from your favorites
-                            </p>
-                        </div>
-                    );
-                })}
+            <div className="favoritesarea">
+                {favorites &&
+                    favorites.map(favorites => {
+                        return (
+                            <div key={favorites.id}>
+                                <img
+                                    style={{
+                                        objectFit: "cover",
+                                        height: "4rem",
+                                        width: "4rem"
+                                    }}
+                                    src={favorites.picture}
+                                />
+                                <h2>{favorites.title}</h2>
+                                <p>{favorites.summary}</p>
+                                <p
+                                    className="fakebutton"
+                                    onClick={() =>
+                                        dispatch(removeFavorite(favorites.id))
+                                    }
+                                >
+                                    Remove this episode from your favorites
+                                </p>
+                            </div>
+                        );
+                    })}
+            </div>
         </div>
     );
 }
