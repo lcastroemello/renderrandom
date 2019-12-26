@@ -2,23 +2,22 @@
     box-sizing: border-box;
     margin: 0;
     outline: 0;
+    color: #e2bc37;
 }
+
 
 h1 {
     font-size: 2rem;
-    color: #e2bc37;
     font-family: "Ubuntu", sans-serif;
 }
 
 h2 {
     font-family: "Ubuntu", sans-serif;
     font-size: 1rem;
-    color: #e2bc37;
 }
 
 h3 {
     font-size: 1.2rem;
-    color: #e2bc37;
 }
 
 button {
@@ -28,18 +27,20 @@ button {
 p {
     font-family: "Ubuntu", sans-serif;
     font-size: 0.8rem;
-    color: #e2bc37;
 }
 
 input {
     border: none;
 }
 
+
 .fakebutton {
     border: black 1px dotted;
     padding: 0.2rem;
     background: rgba(226, 188, 55, 0.3);
 }
+
+
 
 .maincircle {
     background: #5e0704;
@@ -58,7 +59,6 @@ input {
 #render span {
     grid-column: 1/3;
     grid-row: 1/2;
-    color: #e2bc37;
     font: 4rem Monaco, MonoSpace;
     height: 300px;
     position: absolute;
@@ -73,7 +73,6 @@ input {
 #random span {
     grid-row: 1/2;
     grid-column: 2/4;
-    color: #e2bc37;
     font: 4rem Monaco, Monospace;
     height: 300px;
     position: absolute;
@@ -157,7 +156,6 @@ input {
     padding: 0.5rem;
     position: relative;
     text-decoration: none;
-    color: #e2bc37;
     font-size: 1rem;
 }
 /* ----------------------------------Welcome page */
@@ -236,7 +234,6 @@ input {
 }
 
 .button {
-    color: #e2bc37;
     background: #5e0704;
     border: none;
     font-size: 1rem;
@@ -255,11 +252,9 @@ input {
     background: transparent;
     font-family: monospace;
     font-size: 1.2rem;
-    color: #e2bc37;
 }
 
 .title {
-    color: #e2bc37;
     font-family: monospace;
     text-align: center;
     font-size: 1.5rem;
@@ -267,7 +262,6 @@ input {
 
 .linkother {
     font-size: 1rem;
-    color: #e2bc37;
     font-family: monospace;
     text-decoration: none;
 }
@@ -379,7 +373,6 @@ input {
     background: rgb(0, 0, 0);
     position: absolute;
     height: 10rem;
-    color: #e2bc37;
     font-size: 0.8rem;
 }
 
@@ -467,7 +460,6 @@ input {
 .resultspecs {
     grid-column: 2/3;
     grid-row: 3/4;
-    color: #e2bc37;
 }
 
 /* -----------------------------------------UPLOADER */
@@ -527,7 +519,6 @@ input {
 
 .addepisode {
     display: grid;
-    color: #e2bc37;
     padding-left: 2rem;
     width: 25rem;
     height: 50rem;
@@ -661,21 +652,18 @@ input {
     grid-column: 1/2;
     grid-row: 1/2;
     padding: 0.5rem;
-    color: #e2bc37;
 }
 
 .commenttext {
     grid-column: 1/2;
     grid-row: 2/3;
     padding: 0.5rem;
-    color: #e2bc37;
 }
 
 .commenttime {
     grid-column: 1/2;
     grid-row: 3/4;
     padding: 0.5rem;
-    color: #e2bc37;
 }
 
 .writeacomment {
@@ -683,10 +671,8 @@ input {
     height: 5rem;
     background: transparent;
     border: #e2bc37 double 3px;
-    color: #e2bc37;
 }
 .writeacomment::placeholder {
-    color: #e2bc37;
     font-size: 1rem;
     text-align: center;
 }
@@ -749,7 +735,6 @@ input {
 }
 .description {
     font-size: 1rem;
-    color: #e2bc37;
     text-align: center;
     padding-bottom: 1rem;
 }
@@ -760,7 +745,6 @@ input {
 .duration {
     font-family: monospace;
     font-size: 1rem;
-    color: #e2bc37;
     height: 2rem;
     width: 100%;
     display: flex;
