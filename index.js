@@ -14,8 +14,14 @@ const server = require("http").Server(app);
 const io = require("socket.io")(server, {
     origins: "localhost:8080 192.168.50.*:*"
 });
+let secrets;
+if (process.env.NODE_ENV == "production") {
+    secrets = process.env; // in prod the secrets are environment variables
+} else {
+    secrets = require("./secrets"); // in dev they are in secrets.json which is listed in .gitignore
+}
 const cookieSessionMiddleware = cookieSession({
-    secret: "its gonna be ok",
+    secret: secrets.cookiesecret,
     maxAge: 1000 * 60 * 60 * 24 * 14
 });
 
